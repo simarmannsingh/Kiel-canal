@@ -1,13 +1,22 @@
 ![phaser3-parceljs-template](https://user-images.githubusercontent.com/2236153/71606463-37a0da80-2b2e-11ea-9b5f-5d26ccc84f91.png)
 
-# Phaser3 + Parcel Template
+# KielCanal Game
 > For people who want to spend time making games instead of configuring build tools.
 
 ![License](https://img.shields.io/badge/license-MIT-green)
 
+This is an official repository for the Kiel Canal Game, which is created as part of a project to be displayed to open public at the Muesem.
+
+The game is created to showcase the significance and evolution of Kiel Canal, also keeping in mind the audience of the game, which would be children under the age of 13. The Game provides a brief overview of the operation and environment effect of ancient Kiel (Schleswig Holstein) waterways and how the creation of Kiel Canal has revolutionarised the waterways along with saving the environment. The resources saved on a daily basis are tremendous. Kiel Canal is one of the most busiest waterways in the entire Northern Europe.
+
 ## Prerequisites
 
-You'll need [Node.js](https://nodejs.org/en/), [npm](https://www.npmjs.com/), and [Parcel](https://parceljs.org/) installed.
+To play the game, you simply have to visit the link mentioned on the right side of the page and the game should load in your web browser. Game should work flawlessly on almost all of the modern web browser. If any problem is encountered, please use the issues tab to create a 'issue' and the developer will respond within 24-48 hrs.
+
+The game is released as Open-Source project to everyone. Anyone is free to read and modify the source code of the project and can use it in their own non-commercial projects without written permission.
+However, for commercial projects, a written permission of the developer is required.
+
+To run the project on your machine, You'll need [Node.js](https://nodejs.org/en/), [npm](https://www.npmjs.com/), and [Parcel](https://parceljs.org/) installed.
 
 It is highly recommended to use [Node Version Manager](https://github.com/nvm-sh/nvm) (nvm) to install Node.js and npm.
 
@@ -73,7 +82,7 @@ Production files will be placed in the `dist` folder. Then upload those files to
     ├── public
     ├── src
     │   ├── scenes
-    │   │   ├── HelloWorldScene.js
+    │   │   ├── Game.ts
     │   ├── index.html
     │   ├── main.js
     ├── package.json
@@ -95,15 +104,15 @@ Example `public` structure:
 
 ```
     public
-    ├── images
-    │   ├── my-image.png
+    ├── assets
+    │   ├── faune.png
     ├── music
     │   ├── ...
     ├── sfx
     │   ├── ...
 ```
 
-They can then be loaded by Phaser with `this.image.load('my-image', 'images/my-image.png')`.
+They can then be loaded by Phaser with `this.image.load('my-image', 'images/faune.png')`.
 
 ## Class Properties Support
 
