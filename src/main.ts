@@ -10,12 +10,13 @@ const config = {
 	physics: {
 		default: 'arcade',
 		arcade: {
-			gravity: { y: 0 }
+			gravity: { y: 0 },
+			debug: true
 		}
 	},
 	scene: [Preloader, Game],
 	scale : {
-		zoom :2
+		zoom : 1
 	}
 	
 }
