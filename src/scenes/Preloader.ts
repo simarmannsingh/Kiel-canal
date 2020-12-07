@@ -22,6 +22,7 @@ export default class Preloader extends Phaser.Scene {
         
         // Ship's Smoke
         this.load.image('smoke', 'assets/shipripples.png')
+        this.load.image('fire', 'assets/fire.png')
 
 
     }

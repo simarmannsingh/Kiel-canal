@@ -1,5 +1,10 @@
 import Phaser from 'phaser'
 
+import Enemy from '../Enemies/Enemy'
+
+import { createEnemyAnim } from '../Anims/EnemyAnims'
+import { createCharacterAnims } from '../Anims/CharacAnims'
+
 export default class Game extends Phaser.Scene
 {   
     
@@ -8,6 +13,7 @@ export default class Game extends Phaser.Scene
     private ship1!: Phaser.Physics.Arcade.Sprite
     
     exhaustEmitter : Phaser.GameObjects.Particles.ParticleEmitter;
+    fire : Phaser.GameObjects.Particles.ParticleEmitter;
 
 	constructor()
 	{
@@ -21,6 +27,12 @@ export default class Game extends Phaser.Scene
 
     create()
     {        
+
+        // Creating the Animation
+        createEnemyAnim(this.anims)
+        createCharacterAnims(this.anims)
+
+        // Adding tileset and different Map layers
         const map = this.make.tilemap( {key: 'pirates'} )
         const tileset = map.addTilesetImage('oldkiel', 'tiles')
 
@@ -29,6 +41,7 @@ export default class Game extends Phaser.Scene
         const treesLayer = map.createLayer('Trees', tileset)
         const stonesLayer = map.createLayer('Stones', tileset)
 
+        // Making different layers collidable by player
         stonesLayer.setCollisionByProperty({collide : true})
         treesLayer.setCollisionByProperty({collide : true})
 
@@ -40,17 +53,24 @@ export default class Game extends Phaser.Scene
             faceColor: new Phaser.Display.Color(40,39, 37, 255)
         })
 
+    //    const enemies = this.physics.add.group({
+    //        classType: Enemy
+    //    })
+
+    //    enemies.get(254, 133, 'enemy') 
 
         // Adding player
         this.player1 = this.physics.add.sprite(3520, -12032, 'faune' , 'walk-down-1.png')
         this.player1.body.setSize(this.player1.width * 0.5, this.player1.height * 0.9)
 
+        // Adding Particle emitter
         const particles = this.add.particles('smoke')
+        // const particles2 = this.add.particles('smoke')
 
         // Adding ship
         this.ship1 = this.physics.add.sprite(3180, -12250, 'ship', 'ship_1.png')
-        //ship1.body.setMaxSpeed(200);
 
+        // Calculating Offsets
         const directn = new Phaser.Math.Vector2(0, 0)
         directn.setToPolar(this.ship1.rotation, 1)
 
@@ -59,7 +79,6 @@ export default class Game extends Phaser.Scene
 
         const offstx = dx * this.ship1.width * 0.55
         const offsty = dy * this.ship1.width * 0.55
-
 
         this.exhaustEmitter = particles.createEmitter({
             quantity: 10,
@@ -71,57 +90,43 @@ export default class Game extends Phaser.Scene
             alpha: { start: 0.5, end: 0, ease: 'Sine.easeIn' },
             scale: { start: 0.05, end: 0.002 },
             rotate:{ min: -180, max: 180 },
-            angle: { min: 30, max: 140 },
-            
+            angle: { min: 30, max: 140 },            
             blendMode: 'ADD',
-            frequency: 30,
+            frequency: 50,
             follow: this.ship1,            
             followOffset: { x: offstx, y: offsty },
+            tint: 0xA6C7F1,
         })
 
+        // const bonfire = this.physics.add.staticGroup({
+        //     classType: Fire
+        // })
 
-        // Player's running animations
-        // Idle Down animation
-        this.anims.create({
-            key: 'faune-idle-down',
-            frames: [{ key: 'faune', frame: 'run-down-1.png' }]
-        })
+        // const FireLayer = map.getObjectLayer('Fire')
+        // FireLayer.objects.forEach( fire => {
+        //     bonfire.get( fire.x, fire.y)
+        // } )
 
-        // idle Up animation
-        this.anims.create({
-            key: 'faune-idle-up',
-            frames: [{ key: 'faune', frame: 'run-up-1.png' }]
-        })
+        // this.fire = particles.createEmitter( {
+        //     quantity: 10,
+        //     speedY: { min:  -10 * dy, max: 80 * dy},
+        //     speedX: { min: -40 * dx, max: 40 * dx},
+        //     accelerationX: 100 * dx,
+        //     accelerationY: 100 * dy,
+        //     lifespan: { min: 100, max: 300},
+        //     alpha: { start: 0.5, end: 0, ease: 'Sine.easeIn' },
+        //     scale: { start: 0.05, end: 0.002 },
+        //     rotate:{ min: -180, max: 180 },
+        //     angle: { min: 30, max: 140 },            
+        //     blendMode: 'ADD',
+        //     frequency: 50,
+        //     follow: groundLayer,            
+        //     followOffset: { x: offstx, y: offsty },
+        //     tint: 0xA6C7F1,
 
-        // Idle side animation
-        this.anims.create({
-            key: 'faune-idle-side',
-            frames: [{ key: 'faune', frame: 'run-side-1.png' }]
-        })      
+        // })
 
-        // Running Down Animation
-        this.anims.create({
-            key: 'faune-run-down',
-            frames: this.anims.generateFrameNames('faune', {start: 1, end: 8, prefix: 'run-down-', suffix: '.png'}),
-            repeat: -1,
-            frameRate: 13
-        })
-
-        // Running up animation
-        this.anims.create({
-            key: 'faune-run-up',
-            frames: this.anims.generateFrameNames('faune', {start: 1, end: 8, prefix: 'run-up-', suffix: '.png'}),
-            repeat: -1,
-            frameRate: 13
-        })
-
-        // Running side animation
-        this.anims.create({
-            key: 'faune-run-side',
-            frames: this.anims.generateFrameNames('faune', {start: 1, end: 8, prefix: 'run-side-', suffix: '.png'}),
-            repeat: -1,
-            frameRate: 13
-        })
+        
 
         this.player1.anims.play('faune-idle-down')
 
@@ -222,6 +227,8 @@ export default class Game extends Phaser.Scene
         else
         {
             this.ship1.angle += 0
+            this.ship1.x += 0
+            this.ship1.y += 0
             this.player1.setVelocity( 0, 0)
             this.player1.anims.play('faune-idle-down')
         }
@@ -234,6 +241,7 @@ export default class Game extends Phaser.Scene
             const ddx = -dx
             const ddy = -dy
 
+            // exhaustEmitter
             this.exhaustEmitter.setSpeedX({ min: 40 * ddx, max: 140 * ddx})
             this.exhaustEmitter.setSpeedY({ min:  40 * ddy, max: 140 * ddy})
 
@@ -242,6 +250,7 @@ export default class Game extends Phaser.Scene
 
             this.exhaustEmitter.followOffset.x = offstx
             this.exhaustEmitter.followOffset.y = offsty
+          
         }
         
     }
