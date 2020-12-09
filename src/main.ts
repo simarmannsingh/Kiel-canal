@@ -2,9 +2,14 @@ import Phaser from 'phaser'
 
 import Preloader from './scenes/Preloader'
 import Game from './scenes/Game'
+import LoadingScene from './scenes/LoadingScreen'
 
 const config = {
 	type: Phaser.AUTO,
+	// parent: 'phaser-container',
+	// dom: {
+	// 	createContainer: true
+	// } ,
 	width: 1280,
 	height: 960,
 	physics: {
@@ -14,10 +19,10 @@ const config = {
 			debug: true
 		}
 	},
-	scene: [Preloader, Game],
-	scale : {
-		zoom : 1
-	}
+	scene: [LoadingScene, Preloader, Game],
+	// scale : {
+	// 	zoom : 2
+	// }
 	
 }
 

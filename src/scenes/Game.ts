@@ -29,7 +29,7 @@ export default class Game extends Phaser.Scene
     {        
 
         // Creating the Animation
-        createEnemyAnim(this.anims)
+        //createEnemyAnim(this.anims)
         createCharacterAnims(this.anims)
 
         // Adding tileset and different Map layers
@@ -135,8 +135,10 @@ export default class Game extends Phaser.Scene
         this.physics.add.collider(this.player1, stonesLayer)
         this.physics.add.collider(this.player1, treesLayer)
 
-        // Camera Follow the player        
+        // Camera Follow the player
+        this.cameras.main.setZoom(0.1)
         this.cameras.main.startFollow(this.ship1, true)
+        this.cameras.main.zoomTo(1, 1200)
 
     }
 
@@ -147,7 +149,7 @@ export default class Game extends Phaser.Scene
             return
         }
 
-        const speed = 3
+        let speed = 3
 
         const directn = new Phaser.Math.Vector2(0, 0)
         directn.setToPolar(this.ship1.rotation, 1)
@@ -156,7 +158,7 @@ export default class Game extends Phaser.Scene
         const dy = directn.y 
 
         if (this.cursers.up?.isDown)
-        {
+        {            
             this.player1.anims.play('faune-run-up', true)
             this.player1.setVelocity(0, -speed)         
             
