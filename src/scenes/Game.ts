@@ -139,7 +139,6 @@ export default class Game extends Phaser.Scene
         this.cameras.main.setZoom(0.1)
         this.cameras.main.startFollow(this.ship1, true)
         this.cameras.main.zoomTo(1, 1200)
-
     }
 
     update(t: number, dt: number)

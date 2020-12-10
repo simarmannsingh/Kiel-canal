@@ -24,23 +24,13 @@ export default class CustomButton extends Phaser.GameObjects.Container
 
         this.setInteractive()
             .on(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER, () => {
-                this.onImg.setVisible(true)
-                this.overImg.setVisible(false)                
+                this.onImg.setVisible(false)
+                this.overImg.setVisible(true)
             })
             .on(Phaser.Input.Events.GAMEOBJECT_POINTER_OUT, () => {
-                this.onImg.setVisible(false)
-                this.overImg.setVisible(true)                
+                this.onImg.setVisible(true)
+                this.overImg.setVisible(false)
             })
-    }
-
-    preload()
-    {
-
-    }
-
-    create()
-    {
-
-    }
+    }    
 
 }

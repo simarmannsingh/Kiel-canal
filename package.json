@@ -1,10 +1,9 @@
 {
 	"name": "phaser3-parcel-template",
 	"version": "1.0.0",
-	"description": "A template project for Phaser3 using Parceljs",
+	"description": "KielCanal Game",
 	"scripts": {
 		"start": "parcel src/index.html -p 3000",
-		"build": "parcel build src/index.html --out-dir dist",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"author": "supertommy",
