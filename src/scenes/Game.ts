@@ -27,7 +27,7 @@ export default class Game extends Phaser.Scene
 
     create()
     {        
-
+        this.sound.play('ocean')
         // Creating the Animation
         //createEnemyAnim(this.anims)
         createCharacterAnims(this.anims)
@@ -253,6 +253,9 @@ export default class Game extends Phaser.Scene
             this.exhaustEmitter.followOffset.y = offsty
           
         }
+
+        // Background sound
+        // this.sound.play('ocean')
         
     }
 }

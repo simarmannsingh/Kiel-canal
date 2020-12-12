@@ -24,6 +24,9 @@ export default class Preloader extends Phaser.Scene {
         this.load.image('smoke', 'assets/shipripples.png')
         //this.load.image('fire', 'assets/fire.png')
 
+        // Sound : Ocean
+        this.load.audio('ocean', 'music/stereo_ocean.mp3')
+
     }
 
     create() 

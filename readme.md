@@ -4,9 +4,11 @@
 
 ![License](https://img.shields.io/badge/license-MIT-green)
 
+![Kiel Canal Spiel](https://github.com/simarmannsingh/Kiel-canal/blob/master/background.png)
+
 > This is an official repository for the Kiel Canal Game, which is created as part of a project to be displayed to open public at the Muesem.
 
-The KielCanal game is created using the Phaser3 + Parcel template created by [*ourcade*](https://github.com/ourcade/phaser3-parcel-template). Thanks a lot SuperTommy.
+The KielCanal game is created using the Phaser3 + Parcel template created by [*ourcade*](https://github.com/ourcade/phaser3-parcel-template). Thanks a lot SuperTommy, the superman of Phaser Games.
 
 This game is designed to showcase the significance and evolution of Kiel Canal, also keeping in mind the audience of the game, which typically would be children under the age of 13. The Game provides a brief overview of the operation and environment effect of ancient Kiel (Schleswig-Holstein) waterways and how the creation of Kiel Canal has revolutionarised the waterways along with saving the environment. The resources saved on a daily basis are tremendous. Kiel Canal is one of the most busiest waterways in the entire Northern Europe even today.
 
