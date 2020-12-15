@@ -1,18 +1,17 @@
 {
-	"name": "phaser3-parcel-template",
+	"name": "kiel-canal-game",
 	"version": "1.0.0",
 	"description": "KielCanal Game",
 	"scripts": {
-		"start": "parcel src/index.html",
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"start": "parcel src/index.html"
 	},
-	"author": "supertommy",
+	"author": "simarmannsingh",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/ourcade/phaser3-parcel-template.git"
+		"url": "https://github.com/simarmannsingh/Kiel-canal.git"
 	},
-	"homepage": "https://github.com/ourcade/phaser3-parcel-template",
+	"homepage": "https://kiel-canal-game.herokuapp.com/",
 	"devDependencies": {
 		"@babel/core": "^7.10.5",
 		"@babel/plugin-proposal-class-properties": "^7.10.4",

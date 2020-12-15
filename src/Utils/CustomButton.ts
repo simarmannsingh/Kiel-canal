@@ -12,7 +12,7 @@ export default class CustomButton extends Phaser.GameObjects.Container
         
         this.onImg = scene.add.image(0, 0, onTexture)
         this.overImg = scene.add.image(0, 0, overTexture)
-        this.Text = scene.add.text(0, 0, ButtonText).setOrigin(0.5) 
+        this.Text = scene.add.text(0, 0, ButtonText).setOrigin(0.67)
         
         this.add(this.onImg)
         this.add(this.overImg)

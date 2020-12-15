@@ -1,8 +1,8 @@
 import Phaser from 'phaser'
 
+import LoadingScene from './scenes/LoadingScreen'
 import Preloader from './scenes/Preloader'
 import Game from './scenes/Game'
-import LoadingScene from './scenes/LoadingScreen'
 
 const config = {
 	type: Phaser.AUTO,
@@ -11,12 +11,12 @@ const config = {
 	// 	createContainer: true
 	// } ,
 	width: 1280,
-	height: 960,
+	height: 900,
 	physics: {
 		default: 'arcade',
 		arcade: {
 			gravity: { y: 0 },
-			//debug: true
+			// debug: true				<--- uncomment this for debug mode, shows bounding border of the player
 		}
 	},
 	scene: [LoadingScene, Preloader, Game],
