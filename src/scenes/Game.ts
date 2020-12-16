@@ -1,9 +1,5 @@
 import Phaser from 'phaser'
-
-import Enemy from '../Enemies/Enemy'
-
-import { createEnemyAnim } from '../Anims/EnemyAnims'
-import { createCharacterAnims } from '../Anims/CharacAnims'
+import {debugDraw} from '../Utils/debug'
 
 export default class Game extends Phaser.Scene
 {   
@@ -40,16 +36,11 @@ export default class Game extends Phaser.Scene
         treesLayer.setCollisionByProperty({collide : true})
         stonesLayer.setCollisionByProperty({collide : true})
 
-        // ============================================================================================================
+        // =====================================================================
         // Highlighting which area is marked for colliding
         // -----------------------------------------------
-        // const debugGraphics = this.add.graphics().setAlpha(0.7)
-        // groundLayer.renderDebug(debugGraphics, {
-        //     tileColor: null,
-        //     collidingTileColor: new Phaser.Display.Color(0, 0, 0, 255),
-        //     faceColor: new Phaser.Display.Color(40,39, 37, 255)
-        // })
-        // ============================================================================================================
+        // debugDraw(groundLayer, this)        
+        // =====================================================================
 
         // Adding Particle emitter
         const particles = this.add.particles('smoke')

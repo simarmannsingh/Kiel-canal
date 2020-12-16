@@ -3,7 +3,8 @@
 	"version": "1.0.0",
 	"description": "KielCanal Game",
 	"scripts": {
-		"start": "parcel src/index.html"
+		"start": "parcel build src/index.html",
+		"dev": "parcel src/index.html"
 	},
 	"author": "simarmannsingh",
 	"license": "MIT",
@@ -23,7 +24,12 @@
 		"typescript": "^4.1.3"
 	},
 	"dependencies": {
-		"phaser": "^3.24.1"
+		"phaser": "^3.24.1",
+		"parcel-plugin-clean-easy": "^1.0.2",
+		"parcel-plugin-static-files-copy": "^2.4.3",
+		"typescript": "^4.1.3",
+		"@babel/core": "^7.10.5",
+		"@babel/plugin-proposal-class-properties": "^7.10.4"		
 	},
 	"parcelCleanPaths": [
 		"dist"
