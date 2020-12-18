@@ -4,7 +4,8 @@
 	"description": "KielCanal Game",
 	"scripts": {
 		"start": "parcel build src/index.html",
-		"dev": "parcel src/index.html"
+		"dev": "parcel src/index.html",
+		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && parcel build src/index.html && serve -s dist"
 	},
 	"author": "simarmannsingh",
 	"license": "MIT",
@@ -16,23 +17,27 @@
 	"devDependencies": {
 		"@babel/core": "^7.10.5",
 		"@babel/plugin-proposal-class-properties": "^7.10.4",
+		"@types/node": "^14.14.36",
 		"babel-eslint": "^10.1.0",
 		"eslint": "^6.8.0",
+		"express": "^4.17.1",
 		"minimist": ">=1.2.2",
 		"parcel-plugin-clean-easy": "^1.0.2",
 		"parcel-plugin-static-files-copy": "^2.4.3",
 		"typescript": "^4.1.3"
 	},
 	"dependencies": {
-		"phaser": "^3.24.1",
-		"parcel-plugin-clean-easy": "^1.0.2",
-		"parcel-plugin-static-files-copy": "^2.4.3",
-		"typescript": "^4.1.3",
-		"minimist": ">=1.2.2",
+		"@babel/core": "^7.10.5",
+		"@babel/plugin-proposal-class-properties": "^7.10.4",
 		"babel-eslint": "^10.1.0",
 		"eslint": "^6.8.0",
-		"@babel/core": "^7.10.5",
-		"@babel/plugin-proposal-class-properties": "^7.10.4"		
+		"minimist": ">=1.2.2",
+		"parcel-bundler": "1.12.5",
+		"parcel-plugin-clean-easy": "^1.0.2",
+		"parcel-plugin-static-files-copy": "^2.4.3",
+		"phaser": "^3.24.1",
+		"serve": "^11.3.2",
+		"typescript": "^4.1.3"
 	},
 	"parcelCleanPaths": [
 		"dist"
