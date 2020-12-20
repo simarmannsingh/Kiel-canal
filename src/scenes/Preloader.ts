@@ -16,15 +16,15 @@ export default class Preloader extends Phaser.Scene {
         // Player : Ship
         this.load.image('ship', 'assets/ship_1.png')
         
+        // passenger Boat
+        this.load.image('boat', 'assets/boat.png')
         
         
         // this.load.atlas('faune', 'assets/faune.png', 'assets/faune.json')
         
         
-        
-        
-        // Ship's Smoke
-        this.load.image('smoke', 'assets/shipripples.png')
+        // Ship's ripples
+        this.load.image('ripples', 'assets/shipripples.png')
         //this.load.image('fire', 'assets/fire.png')
 
         // Sound : Ocean

@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import {debugDraw} from '../Utils/debug'
+import Boat from '../Boats/Boat'
 
 export default class Game extends Phaser.Scene
 {   
@@ -9,8 +9,12 @@ export default class Game extends Phaser.Scene
 	}    
     
     private cursers!: Phaser.Types.Input.Keyboard.CursorKeys;
+
     private ship1: Phaser.Physics.Arcade.Sprite
-    // private player1!: Phaser.Physics.Arcade.Sprite
+    boat: Phaser.Physics.Arcade.Sprite
+    
+    playerDirectn: Phaser.Math.Vector2
+    boatDirectn: Phaser.Math.Vector2
     
     exhaustEmitter : Phaser.GameObjects.Particles.ParticleEmitter;
     fire : Phaser.GameObjects.Particles.ParticleEmitter;
@@ -37,34 +41,59 @@ export default class Game extends Phaser.Scene
         stonesLayer.setCollisionByProperty({collide : true})
 
         // =====================================================================
-        // Highlighting which area is marked for colliding
+        // Highlighting which area is marked for collisions
         // -----------------------------------------------
         // debugDraw(groundLayer, this)        
         // =====================================================================
 
         // Adding Particle emitter
-        const particles = this.add.particles('smoke')
-
+        const particles = this.add.particles('ripples')
+        const boatparticles = this.add.particles('ripples')
+        
         // Adding ship
         this.ship1 = this.physics.add.sprite(3180, -12250, 'ship', 'ship_1.png')
         this.ship1.body.setSize(this.ship1.width * 0.5, this.ship1.height * 0.75)
+        
+        // Adding boats
+        this.boat = this.physics.add.sprite(3380, -11650, 'boat', 'boat.png' )
+        // this.boat.body.setSize(this.boat.width * 0.5, this.boat.height * 0.75)
+        
+        const boats = this.physics.add.group({
+            classType: Boat,
+            createCallback: (go) => {
+                const boatgo = go as Boat
+                boatgo.body.onCollide = true
+            }
+        })
 
+        boats.get(3450, -11750, 'boat')
+        this.physics.add.collider(boats, groundLayer)
+        this.physics.add.collider(boats, stonesLayer)
+        this.physics.add.collider(boats, treesLayer)
+        this.physics.add.collider(boats, this.ship1 )
+
+
+        
+        //============================================================================================
+        //  Particle system for Player's Ship and other boats
+        //============================================================================================
+        // For Player's ship
         // Calculating Offsets
-        const directn = new Phaser.Math.Vector2(0, 0)
-        directn.setToPolar(this.ship1.rotation, 1)
-
-        const dx = -directn.x 
-        const dy = -directn.y 
-
-        const offstx = dx * this.ship1.width * 0.55
-        const offsty = dy * this.ship1.width * 0.55
-
+        const player_Directn = new Phaser.Math.Vector2(0, 0)
+        player_Directn.setToPolar(this.ship1.rotation, 1)
+    
+        const p_dx = -player_Directn.x 
+        const p_dy = -player_Directn.y 
+    
+        const p_offstx = p_dx * this.ship1.width * 0.55
+        const p_offsty = p_dy * this.ship1.width * 0.5
+        
         this.exhaustEmitter = particles.createEmitter({
             quantity: 10,
-            speedY: { min:  -10 * dy, max: 80 * dy},
-            speedX: { min: -40 * dx, max: 40 * dx},
-            accelerationX: 100 * dx,
-            accelerationY: 100 * dy,
+            speedY: { min:  -10 * p_dy, max: 80 * p_dy},
+            speedX: { min: -40 * p_dx, max: 40 * p_dx},
+            accelerationX: 100 * p_dx,
+            accelerationY: 100 * p_dy,
             lifespan: { min: 100, max: 300},
             alpha: { start: 0.5, end: 0, ease: 'Sine.easeIn' },
             scale: { start: 0.05, end: 0.002 },
@@ -73,9 +102,37 @@ export default class Game extends Phaser.Scene
             blendMode: 'ADD',
             frequency: 50,
             follow: this.ship1,            
-            followOffset: { x: offstx, y: offsty },
+            followOffset: { x: p_offstx, y: p_offsty },
             tint: 0xA6C7F1,
         })
+
+        // For Other boats
+        // const boat_Directn = new Phaser.Math.Vector2(0, 0)
+        // boat_Directn.setToPolar(this.boat.rotation, 1)
+    
+        // const b_dx = -boat_Directn.x 
+        // const b_dy = -boat_Directn.y 
+    
+        // const b_offstx = b_dx * this.boat.width * 0.55
+        // const b_offsty = b_dy * this.boat.height * 0.5
+        
+        // this.fire = boatparticles.createEmitter({
+        //     quantity: 6,
+        //     speedY: { min:  -10 * b_dy, max: 80 * b_dy},
+        //     speedX: { min: -40 * b_dx, max: 40 * b_dx},
+        //     accelerationX: 100 * b_dx,
+        //     accelerationY: 100 * b_dy,
+        //     lifespan: { min: 100, max: 300},
+        //     alpha: { start: 0.5, end: 0, ease: 'Sine.easeIn' },
+        //     scale: { start: 0.05, end: 0.002 },
+        //     rotate:{ min: -180, max: 180 },
+        //     angle: { min: 30, max: 140 },            
+        //     blendMode: 'ADD',
+        //     frequency: 40,
+        //     follow: this.boat,
+        //     followOffset: { x: b_offstx, y: b_offsty },
+        //     tint: 0x1AC7F1,
+        // })
 
         // Setting collisions with ground, walls and trees
         this.physics.add.collider(this.ship1, groundLayer)
@@ -90,7 +147,7 @@ export default class Game extends Phaser.Scene
 
     update(t: number, dt: number)
     {
-        if (!this.cursers || !this.ship1 )
+        if (!this.cursers || !this.ship1  || !this.boat)
         {
             return
         }
@@ -103,21 +160,26 @@ export default class Game extends Phaser.Scene
         let dx = directn.x 
         let dy = directn.y 
 
+        // this.boat.setVelocity(speed * dx * 0.2, speed * dy * 0.2)
+
         if (this.cursers.up?.isDown)
         {             
             if (this.cursers.left?.isDown)
             {   
                 // Rotating Ship direction on pressing left
                 this.ship1.angle -= speed * 0.012
+                // this.boat.angle -= speed * 0.012
             }
             else if (this.cursers.right?.isDown)
             {
                 // Rotating Ship direction on pressing Right
                 this.ship1.angle += speed * 0.012
+                // this.boat.angle += speed * 0.012
             }
             
             // Moving Ship forward on pressing Up            
             this.ship1.setVelocity(speed * dx, speed * dy)
+            
         }
 
         else if (this.cursers.down?.isDown)
@@ -126,15 +188,18 @@ export default class Game extends Phaser.Scene
             {
                 // Rotating Ship direction on pressing right
                 this.ship1.angle -= speed * 0.012
+                // this.boat.angle -= speed * 0.012
             }
             else if (this.cursers.left?.isDown)
             {
                 // Rotating Ship direction on pressing left
                 this.ship1.angle += speed * 0.012
+                // this.boat.angle += speed * 0.012
             }            
             
             // Moving Ship backward on pressing down
             this.ship1.setVelocity(-speed * 0.7 * dx, -speed * 0.7 * dy)
+            // this.boat.setVelocity(-speed * 0.7 * dx, -speed * 0.7 * dy)
         }
 
         else

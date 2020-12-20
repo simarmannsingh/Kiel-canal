@@ -16,7 +16,7 @@ const config = {
 		default: 'arcade',
 		arcade: {
 			gravity: { y: 0 },
-			// debug: true				<--- uncomment this for debug mode, shows bounding border of the player
+			debug: true			//	<--- uncomment this for debug mode, shows bounding border of the player
 		}
 	},
 	scene: [LoadingScene, Preloader, Game],

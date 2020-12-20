@@ -46,6 +46,4 @@ const createCharacterAnims = (anims: Phaser.Animations.AnimationManager) => {
         })
 }
 
-export { 
-    createCharacterAnims
-}
+export { createCharacterAnims }
