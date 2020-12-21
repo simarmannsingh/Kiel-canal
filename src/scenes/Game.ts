@@ -9,12 +9,13 @@ export default class Game extends Phaser.Scene
 	}    
     
     private cursers!: Phaser.Types.Input.Keyboard.CursorKeys;
-
     private ship1: Phaser.Physics.Arcade.Sprite
-    boat: Phaser.Physics.Arcade.Sprite
+    private boat: Phaser.Physics.Arcade.Sprite
     
-    playerDirectn: Phaser.Math.Vector2
-    boatDirectn: Phaser.Math.Vector2
+    private hit = 0
+
+    private playerDirectn: Phaser.Math.Vector2
+    private boatDirectn: Phaser.Math.Vector2
     
     exhaustEmitter : Phaser.GameObjects.Particles.ParticleEmitter;
     fire : Phaser.GameObjects.Particles.ParticleEmitter;
@@ -70,7 +71,8 @@ export default class Game extends Phaser.Scene
         this.physics.add.collider(boats, groundLayer)
         this.physics.add.collider(boats, stonesLayer)
         this.physics.add.collider(boats, treesLayer)
-        this.physics.add.collider(boats, this.ship1 )
+        this.physics.add.collider(boats, this.ship1 , this.handlePlayerBoatCollision , undefined, this
+            )
 
 
         
@@ -145,14 +147,39 @@ export default class Game extends Phaser.Scene
         this.cameras.main.zoomTo(1, 1200)
     }
 
+    private handlePlayerBoatCollision(obj1: Phaser.GameObjects.GameObject, obj2: Phaser.GameObjects.GameObject)
+    {
+        const boat = obj2 as Boat
+        
+        const dx = this.ship1.x - boat.x
+        const dy = this.ship1.y - boat.y
+
+        const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200)
+
+        this.ship1.setVelocity(dir.x, dir.y)
+
+        this.hit = 1
+    }
+
     update(t: number, dt: number)
     {
+        if(this.hit > 0)
+        {
+            ++this.hit
+            if(this.hit > 15)
+            {
+                this.hit = 0
+            }
+            return
+        }
+
         if (!this.cursers || !this.ship1  || !this.boat)
         {
             return
         }
 
-        let speed = 200         // <-------   Speed of the boat
+        let speed = 250             // <-------  Speed of the player's ship when accelerating
+        let floating_speed = 80     // <-------  floating velocity
 
         const directn = new Phaser.Math.Vector2(0, 0)
         directn.setToPolar(this.ship1.rotation, 1)
@@ -160,21 +187,17 @@ export default class Game extends Phaser.Scene
         let dx = directn.x 
         let dy = directn.y 
 
-        // this.boat.setVelocity(speed * dx * 0.2, speed * dy * 0.2)
-
         if (this.cursers.up?.isDown)
         {             
             if (this.cursers.left?.isDown)
             {   
                 // Rotating Ship direction on pressing left
-                this.ship1.angle -= speed * 0.012
-                // this.boat.angle -= speed * 0.012
+                this.ship1.angle -= speed * 0.012 
             }
             else if (this.cursers.right?.isDown)
             {
                 // Rotating Ship direction on pressing Right
                 this.ship1.angle += speed * 0.012
-                // this.boat.angle += speed * 0.012
             }
             
             // Moving Ship forward on pressing Up            
@@ -188,24 +211,21 @@ export default class Game extends Phaser.Scene
             {
                 // Rotating Ship direction on pressing right
                 this.ship1.angle -= speed * 0.012
-                // this.boat.angle -= speed * 0.012
             }
             else if (this.cursers.left?.isDown)
             {
                 // Rotating Ship direction on pressing left
                 this.ship1.angle += speed * 0.012
-                // this.boat.angle += speed * 0.012
             }            
             
             // Moving Ship backward on pressing down
             this.ship1.setVelocity(-speed * 0.7 * dx, -speed * 0.7 * dy)
-            // this.boat.setVelocity(-speed * 0.7 * dx, -speed * 0.7 * dy)
         }
 
         else
         {
             this.ship1.angle += 0            
-            this.ship1.setVelocity( 0, 0)
+            this.ship1.setVelocity(floating_speed * dx, floating_speed * dy)
         }
         
         // Setting direction and intensity of Particle system at the end of the boat

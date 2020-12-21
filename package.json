@@ -6,9 +6,9 @@
 		"node": "12.18.2"
 	},
 	"scripts": {
-		"start": "parcel build src/index.html",
+		"start": "parcel build src/index.html && node server.js",
 		"dev": "parcel src/index.html",
-		"heroku-postbuild": "npm install && parcel build src/index.html && serve -s dist"
+		"heroku-postbuild": "npm install && parcel build src/index.html && node server.js"
 	},
 	"author": "simarmannsingh",
 	"license": "MIT",
@@ -19,7 +19,6 @@
 	"homepage": "https://kiel-canal-game.herokuapp.com/",
 	"devDependencies": {
 		"@babel/core": "^7.10.5",
-		"@babel/plugin-proposal-class-properties": "^7.10.4",
 		"@types/node": "^14.14.36",
 		"babel-eslint": "^10.1.0",
 		"eslint": "^6.8.0",
@@ -31,10 +30,10 @@
 	},
 	"dependencies": {
 		"@babel/core": "^7.10.5",
-		"@babel/plugin-proposal-class-properties": "^7.10.4",
 		"babel-eslint": "^10.1.0",
 		"eslint": "^6.8.0",
 		"minimist": ">=1.2.2",
+		"express": "^4.17.1",
 		"parcel-bundler": "1.12.5",
 		"parcel-plugin-clean-easy": "^1.0.2",
 		"parcel-plugin-static-files-copy": "^2.4.3",
