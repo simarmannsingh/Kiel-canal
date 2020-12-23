@@ -3,6 +3,7 @@ import Phaser from 'phaser'
 import LoadingScene from './scenes/LoadingScreen'
 import Preloader from './scenes/Preloader'
 import Game from './scenes/Game'
+import GameUI from './scenes/GameUI'
 
 const config = {
 	type: Phaser.AUTO,
@@ -19,7 +20,7 @@ const config = {
 			debug: true			//	<--- uncomment this for debug mode, shows bounding border of the player
 		}
 	},
-	scene: [LoadingScene, Preloader, Game],
+	scene: [LoadingScene, Preloader, Game, GameUI],
 	// scale : {
 	// 	zoom : 2
 	// }

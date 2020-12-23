@@ -6,9 +6,9 @@
 		"node": "12.18.2"
 	},
 	"scripts": {
-		"start": "parcel build src/index.html && node server.js",
+		"start": "parcel build src/index.html && serve -s dist",
 		"dev": "parcel src/index.html",
-		"heroku-postbuild": "npm install && parcel build src/index.html && node server.js"
+		"heroku-postbuild": "npm install && parcel build src/index.html && serve -s dist"
 	},
 	"author": "simarmannsingh",
 	"license": "MIT",

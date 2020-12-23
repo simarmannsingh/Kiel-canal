@@ -1,5 +1,9 @@
 import Phaser from 'phaser'
 import Boat from '../Boats/Boat'
+import '../Characters/Player'
+import Player from '../Characters/Player';
+
+import { sceneEvents } from '../Events/EventsCenter'
 
 export default class Game extends Phaser.Scene
 {   
@@ -9,10 +13,10 @@ export default class Game extends Phaser.Scene
 	}    
     
     private cursers!: Phaser.Types.Input.Keyboard.CursorKeys;
-    private ship1: Phaser.Physics.Arcade.Sprite
+    private ship1: Player
     private boat: Phaser.Physics.Arcade.Sprite
     
-    private hit = 0
+    // private hit = 0
 
     private playerDirectn: Phaser.Math.Vector2
     private boatDirectn: Phaser.Math.Vector2
@@ -26,7 +30,9 @@ export default class Game extends Phaser.Scene
     }
 
     create()
-    {     
+    {   
+        this.scene.run('game_ui')
+
         // Adding tileset and different Map layers
         const map = this.make.tilemap( {key: 'pirates'} )
         const tileset = map.addTilesetImage('oldkiel', 'tiles')
@@ -52,8 +58,9 @@ export default class Game extends Phaser.Scene
         const boatparticles = this.add.particles('ripples')
         
         // Adding ship
-        this.ship1 = this.physics.add.sprite(3180, -12250, 'ship', 'ship_1.png')
-        this.ship1.body.setSize(this.ship1.width * 0.5, this.ship1.height * 0.75)
+        this.ship1 = this.add.player(3180, -12250, 'ship')
+        // this.ship1 = this.physics.add.sprite(3180, -12250, 'ship', 'ship_1.png')
+        // this.ship1.body.setSize(this.ship1.width * 0.5, this.ship1.height * 0.75)
         
         // Adding boats
         this.boat = this.physics.add.sprite(3380, -11650, 'boat', 'boat.png' )
@@ -155,79 +162,36 @@ export default class Game extends Phaser.Scene
         const dy = this.ship1.y - boat.y
 
         const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200)
+        
+        this.ship1.handleDamage(dir)
 
-        this.ship1.setVelocity(dir.x, dir.y)
-
-        this.hit = 1
+        sceneEvents.emit('player_health_changed', this.ship1.getHealth)
     }
 
     update(t: number, dt: number)
     {
-        if(this.hit > 0)
+        // if(this.hit > 0)
+        // {
+        //     ++this.hit
+        //     if(this.hit > 15)
+        //     {
+        //         this.hit = 0
+        //     }
+        //     return
+        // }
+
+        if (this.ship1 )
         {
-            ++this.hit
-            if(this.hit > 15)
-            {
-                this.hit = 0
-            }
-            return
+            this.ship1.update(this.cursers)
         }
 
-        if (!this.cursers || !this.ship1  || !this.boat)
-        {
-            return
-        }
-
-        let speed = 250             // <-------  Speed of the player's ship when accelerating
-        let floating_speed = 80     // <-------  floating velocity
-
+        // Variables for calculating emitter's direction
         const directn = new Phaser.Math.Vector2(0, 0)
         directn.setToPolar(this.ship1.rotation, 1)
 
         let dx = directn.x 
         let dy = directn.y 
-
-        if (this.cursers.up?.isDown)
-        {             
-            if (this.cursers.left?.isDown)
-            {   
-                // Rotating Ship direction on pressing left
-                this.ship1.angle -= speed * 0.012 
-            }
-            else if (this.cursers.right?.isDown)
-            {
-                // Rotating Ship direction on pressing Right
-                this.ship1.angle += speed * 0.012
-            }
-            
-            // Moving Ship forward on pressing Up            
-            this.ship1.setVelocity(speed * dx, speed * dy)
-            
-        }
-
-        else if (this.cursers.down?.isDown)
-        {            
-            if (this.cursers.right?.isDown)
-            {
-                // Rotating Ship direction on pressing right
-                this.ship1.angle -= speed * 0.012
-            }
-            else if (this.cursers.left?.isDown)
-            {
-                // Rotating Ship direction on pressing left
-                this.ship1.angle += speed * 0.012
-            }            
-            
-            // Moving Ship backward on pressing down
-            this.ship1.setVelocity(-speed * 0.7 * dx, -speed * 0.7 * dy)
-        }
-
-        else
-        {
-            this.ship1.angle += 0            
-            this.ship1.setVelocity(floating_speed * dx, floating_speed * dy)
-        }
-        
+                
         // Setting direction and intensity of Particle system at the end of the boat
         if (this.exhaustEmitter)
         {
