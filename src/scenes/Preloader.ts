@@ -16,11 +16,12 @@ export default class Preloader extends Phaser.Scene {
 
         // Health UI assets
         this.load.image('ui_heart_full', 'assets/ui_heart_full.png')
-        this.load.image('ui_heart_half', 'assets/ui_heart_half.png')
         this.load.image('ui_heart_empty', 'assets/ui_heart_empty.png')
 
         // Player : Ship
         this.load.image('ship', 'assets/ship_1.png')
+        this.load.image('ship2', 'assets/ship_2.png')
+        this.load.image('ship4', 'assets/ship_4.png')
         
         // passenger Boat
         this.load.image('boat', 'assets/boat.png')

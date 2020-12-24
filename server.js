@@ -1,9 +1,12 @@
 /*eslint no-undef: "error"*/
 /*eslint-env node*/
 "use strict"
-var express = require('express');
+const express = require('express');
 const path = require('path')
-var app = express();
+const app = express();
+const logfmt = require('logfmt')
+
+app.use(logfmt.requestLogger())
 
 app.use('/', express.static(__dirname + '/dist'))
 

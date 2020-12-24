@@ -2,13 +2,14 @@
 	"name": "kiel-canal-game",
 	"version": "1.0.0",
 	"description": "KielCanal Game",
+	"main": "server.js",
 	"engines": {
 		"node": "12.18.2"
 	},
 	"scripts": {
 		"start": "parcel build src/index.html && serve -s dist",
 		"dev": "parcel src/index.html",
-		"heroku-postbuild": "npm install && parcel build src/index.html && serve -s dist"
+		"build": "npm install && parcel build src/index.html --public-url && node server.js"		
 	},
 	"author": "simarmannsingh",
 	"license": "MIT",
@@ -32,8 +33,9 @@
 		"@babel/core": "^7.10.5",
 		"babel-eslint": "^10.1.0",
 		"eslint": "^6.8.0",
-		"minimist": ">=1.2.2",
 		"express": "^4.17.1",
+		"logfmt": "^1.3.2",
+		"minimist": ">=1.2.2",
 		"parcel-bundler": "1.12.5",
 		"parcel-plugin-clean-easy": "^1.0.2",
 		"parcel-plugin-static-files-copy": "^2.4.3",

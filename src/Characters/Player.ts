@@ -14,7 +14,8 @@ declare global
 enum HealthState
 {
     IDLE,
-    DAMAGE
+    DAMAGE,
+    DEAD
 }
 
 export default class Player extends Phaser.Physics.Arcade.Sprite
@@ -37,21 +38,33 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
     handleDamage(dir: Phaser.Math.Vector2)
     {        
-        if (this.healthState === HealthState.DAMAGE || this.health <= 0)
+        if (this.healthState === HealthState.DAMAGE || this.healthState === HealthState.DEAD || this.health <= 0)
         {
             return
         }
         
-        this.setVelocity( dir.x, dir.y )
-        this.setTint(0xff0000)
-        
-        this.healthState = HealthState.DAMAGE
-        this.damageTime = 0
-        
-        --this.health
-        if(this.health <= 0)
+        --this.health      
+        if(this.health <= 0)                        // Case : DEAD
+        {            
+            this.healthState = HealthState.DEAD
+            this.setTexture('ship4')
+            this.setVelocity( 0, 0 )
+        }
+        else if(this.health > 0 && this.health < 3) // Case : DAMAGE
+        {            
+            this.healthState = HealthState.DAMAGE
+            this.setTexture('ship2')
+            this.setVelocity( dir.x, dir.y )    
+            this.setTint(0xff0000)
+            this.damageTime = 0
+        }
+        else                                        // Case : IDLE or DAMAGE 
         {
-            // TODO ; die
+            this.setVelocity( dir.x, dir.y )    
+            this.setTint(0xff0000)
+        
+            this.healthState = HealthState.DAMAGE
+            this.damageTime = 0
         }
     }
 
@@ -82,6 +95,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         if( this.healthState === HealthState.DAMAGE)
         {
             return
+        }
+
+        if( this.healthState === HealthState.DEAD)
+        {
+            cursors = null
         }
 
 
