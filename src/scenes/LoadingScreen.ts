@@ -47,6 +47,12 @@ export default class LoadingScene extends Phaser.Scene
             .on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
                 this.scene.start('preloader')
             })
+
+        // soundButton.setInteractive()
+        //     .on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
+                              
+
+        //     })
         // this.add.image(400, 300, 'button1').setInteractive()
         //     .on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
         //         console.log('pressed');
