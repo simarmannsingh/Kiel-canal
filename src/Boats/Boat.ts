@@ -2,10 +2,14 @@ import Phaser from 'phaser'
 
 enum Direction
 {
-    UP,
+    TOP,
+    TOPRIGHT,
+    RIGHT,
+    DOWNRIGHT,
     DOWN,
+    DOWNLEFT,
     LEFT,
-    RIGHT
+    TOPLEFT
 }
 
 const randomDirection = (exclude: Direction) => {
@@ -20,7 +24,7 @@ const randomDirection = (exclude: Direction) => {
 
 export default class Boat extends Phaser.Physics.Arcade.Sprite
 {
-    private direction = Direction.RIGHT
+    private direction = Direction.TOP
     private moveEvent: Phaser.Time.TimerEvent
     fire : Phaser.GameObjects.Particles.ParticleEmitter;
 
@@ -93,25 +97,49 @@ export default class Boat extends Phaser.Physics.Arcade.Sprite
 
         switch(this.direction)
         {
-            case Direction.UP:
-                this.setVelocity(0, -speed)
+            case Direction.TOP:
+                // this.setVelocity(0, -speed)
+                this.setVelocity(0, -Phaser.Math.Between(0, speed))
                 this.angle = -90
                 break
             
+            case Direction.TOPRIGHT:
+                this.setVelocity(Phaser.Math.Between(0, speed), -Phaser.Math.Between(0, speed))
+                this.angle = -45
+                break
+                
+            case Direction.RIGHT:
+                this.setVelocity(Phaser.Math.Between(0, speed), 0)
+                this.angle = 0
+                break
+
+            case Direction.DOWNRIGHT:
+                this.setVelocity(Phaser.Math.Between(0, speed), Phaser.Math.Between(0, speed))
+                this.angle = 45
+                break
+            
+        
             case Direction.DOWN:
-                this.setVelocity(0, speed)
+                this.setVelocity(0, Phaser.Math.Between(0, speed))
                 this.angle = 90
                 break
             
+            case Direction.DOWNLEFT:
+                this.setVelocity(-Phaser.Math.Between(0, speed), Phaser.Math.Between(0, speed))
+                this.angle = 135
+                break
+            
+
             case Direction.LEFT:
-                this.setVelocity(-speed, 0)
+                this.setVelocity(-Phaser.Math.Between(0, speed), 0)
                 this.angle = 180
                 break
 
-            case Direction.RIGHT:
-                this.setVelocity(speed, 0)
-                this.angle = 0
+            case Direction.TOPLEFT:
+                this.setVelocity(-Phaser.Math.Between(0, speed), -Phaser.Math.Between(0, speed))
+                this.angle = -135
                 break
+
         }
     }
 

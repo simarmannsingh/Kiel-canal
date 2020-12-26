@@ -1,10 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
 
 body {
-    margin: 0 auto;
+    margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Josefin Sans', sans-serif;
 }
 
 .container{
@@ -13,6 +12,7 @@ body {
 }
 
 .header{
+    font-family: 'Josefin Sans', sans-serif;
     background-color: rgb(149, 84, 209);
     position: sticky;
     top: 0;

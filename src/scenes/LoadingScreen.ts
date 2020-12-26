@@ -4,6 +4,8 @@ import CustomButton from '../Utils/CustomButton'
 
 export default class LoadingScene extends Phaser.Scene
 {
+    private swidth = window.innerWidth/2;
+    private sheight = window.innerHeight/2;
     constructor()
     {
         super('load-screen')
@@ -13,6 +15,7 @@ export default class LoadingScene extends Phaser.Scene
     {
         // Background image of Splashscreen
         this.load.image('background', 'assets/background.png')
+        this.load.image('schiff', 'assets/schiff.png')
 
         // Buttons
         this.load.image('button1', 'assets/blue_button00.png')
@@ -26,28 +29,32 @@ export default class LoadingScene extends Phaser.Scene
 
     create()
     {
-        this.add.image(640, 400,'background')
+        this.add.image(this.swidth,this.sheight,'background')
+        this.add.image((this.swidth + 420),(this.sheight + 260 ),'schiff')
+
                 
-        const startGame = new CustomButton(this, 840, 310, 'button1', 'button2', 'Start Game')
+        const startGame = new CustomButton(this, this.swidth + 144,this.sheight - 100, 'button1', 'button2', 'Start Game')
         this.add.existing(startGame)
         
-        const settings = new CustomButton(this, 840, 370, 'button1', 'button2', 'Settings')
-        this.add.existing(settings)
-
-        const howToPlay = new CustomButton(this, 840, 430, 'button1', 'button2', 'How to play')
-        this.add.existing(howToPlay)
-
-        const soundButton = new CustomButton(this, 1140, 60, 'button3', 'button4', '')
-        this.add.existing(soundButton)
-
-        const Speaker = new CustomButton(this, 1200, 60, 'speaker', 'speaker', '')
-        this.add.existing(Speaker)
-
         startGame.setInteractive()
             .on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
-                this.scene.start('preloader')
+                this.scene.start('intro-screen')
             })
 
+
+        const settings = new CustomButton(this, this.swidth + 144,this.sheight - 40, 'button1', 'button2', 'Settings')
+        this.add.existing(settings)
+
+        const howToPlay = new CustomButton(this, this.swidth + 144,this.sheight + 20, 'button1', 'button2', 'How to play')
+        this.add.existing(howToPlay)
+
+        const soundButton = new CustomButton(this, window.innerWidth - 240,this.sheight - 340, 'button3', 'button4', '')
+        this.add.existing(soundButton)
+
+        const Speaker = new CustomButton(this, window.innerWidth - 180,this.sheight - 340, 'speaker', 'speaker', '')
+        this.add.existing(Speaker)
+
+        
         // soundButton.setInteractive()
         //     .on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
                               

@@ -12,7 +12,7 @@ export default class Preloader extends Phaser.Scene {
         // Background Map
         this.load.image('tiles', 'assets/oldkiel.png')
         // this.load.tilemapTiledJSON('pirates', 'assets/pirates1.json')
-        this.load.tilemapTiledJSON('pirates', 'assets/pirates_second.json')
+        this.load.tilemapTiledJSON('pirates', 'assets/pirates_2.json')
 
         // Health UI assets
         this.load.image('ui_heart_full', 'assets/ui_heart_full.png')
@@ -31,6 +31,9 @@ export default class Preloader extends Phaser.Scene {
 
         // Sound : Ocean
         this.load.audio('ocean', 'music/stereo_ocean.mp3')
+        this.load.audio('smash', 'music/collide.mp3')
+        this.load.audio('end', 'music/end.mp3')
+        this.load.audio('travel', 'music/travel.mp3')
 
     }
 

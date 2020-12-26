@@ -16,7 +16,7 @@ export default class Game extends Phaser.Scene
     private ship1: Player
     private boat: Phaser.Physics.Arcade.Sprite
     
-    // private hit = 0
+    private playerBoatCollider?: Phaser.Physics.Arcade.Collider
 
     private playerDirectn: Phaser.Math.Vector2
     private boatDirectn: Phaser.Math.Vector2
@@ -69,14 +69,20 @@ export default class Game extends Phaser.Scene
             createCallback: (go) => {
                 const boatgo = go as Boat
                 boatgo.body.onCollide = true
-            }
+            },
+            // quantity: 400
         })
 
-        boats.get(3450, -11750, 'boat')
+        const boatsLayer = map.getObjectLayer('dingyboats')
+        boatsLayer.objects.forEach((boatObj) => {
+            boats .get(boatObj.x! + boatObj.width! * 0.5, boatObj.y! - boatObj.height! * 0.5, 'boat')
+             
+        })
+
         this.physics.add.collider(boats, groundLayer)
         this.physics.add.collider(boats, stonesLayer)
         this.physics.add.collider(boats, treesLayer)
-        this.physics.add.collider(boats, this.ship1 , this.handlePlayerBoatCollision , undefined, this)
+        this.playerBoatCollider = this.physics.add.collider(boats, this.ship1 , this.handlePlayerBoatCollision , undefined, this)
 
         //============================================================================================
         //  Particle system for Player's Ship and other boats
@@ -119,6 +125,10 @@ export default class Game extends Phaser.Scene
         this.cameras.main.setZoom(0.1)
         this.cameras.main.startFollow(this.ship1, true)
         this.cameras.main.zoomTo(1, 1200)
+
+        // this.sound.play('travel',{
+        //     loop: true
+        // })
     }
 
     private handlePlayerBoatCollision(obj1: Phaser.GameObjects.GameObject, obj2: Phaser.GameObjects.GameObject)
@@ -133,15 +143,17 @@ export default class Game extends Phaser.Scene
         this.ship1.handleDamage(dir)
 
         sceneEvents.emit('player_health_changed', this.ship1.getHealth)
+
+        if(this.ship1.getHealth <= 0 )
+        {            
+            this.exhaustEmitter.follow = null
+            this.playerBoatCollider?.destroy()
+        }
+        this.sound.play('smash')
     }
 
     update(t: number, dt: number)
-    {        
-        if(this.ship1.getHealth === 0 )
-        {            
-            this.exhaustEmitter.follow = null
-        }
-
+    {
         if (this.ship1 )
         {
             this.ship1.update(this.cursers)

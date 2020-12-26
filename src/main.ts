@@ -4,6 +4,12 @@ import LoadingScene from './scenes/LoadingScreen'
 import Preloader from './scenes/Preloader'
 import Game from './scenes/Game'
 import GameUI from './scenes/GameUI'
+import Introduction from './scenes/Introduction'
+// import checkResolution from './Utils/CheckResolution'
+// let res: checkResolution
+// res.checkRes
+
+// let bg_introction;
 
 const config = {
 	type: Phaser.AUTO,
@@ -11,8 +17,8 @@ const config = {
 	// dom: {
 	// 	createContainer: true
 	// } ,
-	width: 1280,
-	height: 900,
+	width: 	(window.innerWidth -4)* window.devicePixelRatio,							//  res.screen_width,
+	height: (window.innerHeight -4)* window.devicePixelRatio,							// res.screen_height,
 	physics: {
 		default: 'arcade',
 		arcade: {
@@ -20,7 +26,7 @@ const config = {
 			// debug: true			//	<--- uncomment this for debug mode, shows bounding border of the player
 		}
 	},
-	scene: [LoadingScene, Preloader, Game, GameUI],
+	scene: [LoadingScene, Introduction, Preloader, Game, GameUI],
 	// scale : {
 	// 	zoom : 2
 	// }
