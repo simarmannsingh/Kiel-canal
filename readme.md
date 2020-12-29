@@ -16,7 +16,7 @@ You can use arrow keys to navigate the ship and find your way through the map, r
 
 ## Development
 
-The game is released with an MIT licence. This means anyone is free to modify and use the source code of the project in their own commercial or non-commercial projects without written permission. The copyright notice and permission notice shall be included in all copies or substantial portions of the Software.
+The game is currently under development and is to be released with an MIT licence. This means anyone is free to modify and use the source code of the project in their own commercial or non-commercial projects without written permission. The copyright notice and permission notice shall be included in all copies or substantial portions of the Software.
 
 To run the project on your machine, You'll need [Node.js](https://nodejs.org/en/), [npm](https://www.npmjs.com/), and [Parcel](https://parceljs.org/) installed.
 
@@ -81,6 +81,17 @@ Production files will be placed in the `dist` folder. Then upload those files to
     │   ├── main.js
     ├── package.json
 ```
+
+## TODO:
+- Countdown timer
+- Finish Line
+- UI buttons for Sound controls
+- Replay or Restart Mission button
+- Collecting chest coins
+- Saving Highscore
+- User Accounts /  Guest Accounts
+- Multiplayer options
+
 
 ## License
 

@@ -4,6 +4,7 @@ import '../Characters/Player'
 import Player from '../Characters/Player';
 
 import { sceneEvents } from '../Events/EventsCenter'
+// import CountdownController from './CountdownController';
 
 export default class Game extends Phaser.Scene
 {   
@@ -12,17 +13,16 @@ export default class Game extends Phaser.Scene
 		super('game')
 	}    
     
+    private swidth = window.innerWidth/2
     private cursers!: Phaser.Types.Input.Keyboard.CursorKeys;
     private ship1: Player
     private boat: Phaser.Physics.Arcade.Sprite
     
+    // private countdown: CountdownController
     private playerBoatCollider?: Phaser.Physics.Arcade.Collider
 
-    private playerDirectn: Phaser.Math.Vector2
-    private boatDirectn: Phaser.Math.Vector2
-    
     exhaustEmitter : Phaser.GameObjects.Particles.ParticleEmitter;
-    fire : Phaser.GameObjects.Particles.ParticleEmitter;
+    // fire : Phaser.GameObjects.Particles.ParticleEmitter;
 
 	preload()
     {
@@ -58,11 +58,10 @@ export default class Game extends Phaser.Scene
         const boatparticles = this.add.particles('ripples')
         
         // Adding ship
-        this.ship1 = this.add.player(3180, -12250, 'ship')        
+        this.ship1 = this.add.player(3180, -12250, 'ship1')        
         
         // Adding boats
-        this.boat = this.physics.add.sprite(3380, -11650, 'boat', 'boat.png' )
-        // this.boat.body.setSize(this.boat.width * 0.5, this.boat.height * 0.75)
+        this.boat = this.physics.add.sprite(3380, -11650, 'boat', 'boat.png' )        
         
         const boats = this.physics.add.group({
             classType: Boat,
@@ -70,10 +69,9 @@ export default class Game extends Phaser.Scene
                 const boatgo = go as Boat
                 boatgo.body.onCollide = true
             },
-            // quantity: 400
         })
 
-        const boatsLayer = map.getObjectLayer('dingyboats')
+        const boatsLayer = map.getObjectLayer('Dingyboats')
         boatsLayer.objects.forEach((boatObj) => {
             boats .get(boatObj.x! + boatObj.width! * 0.5, boatObj.y! - boatObj.height! * 0.5, 'boat')
              
@@ -84,6 +82,7 @@ export default class Game extends Phaser.Scene
         this.physics.add.collider(boats, treesLayer)
         this.playerBoatCollider = this.physics.add.collider(boats, this.ship1 , this.handlePlayerBoatCollision , undefined, this)
 
+        
         //============================================================================================
         //  Particle system for Player's Ship and other boats
         //============================================================================================
@@ -126,10 +125,33 @@ export default class Game extends Phaser.Scene
         this.cameras.main.startFollow(this.ship1, true)
         this.cameras.main.zoomTo(1, 1200)
 
+
+        //============================================================================================================================
+        //     Error : TODO
+        //============================================================================================================================
+
+        // let timerLabel = this.add.text(300, -300, '45', { fontSize: '40px', color: '#ffffff' })
+        //     .setOrigin(0.5)
+        
+        // console.log(timerLabel.text);
+        // const abc = Number(timerLabel.text)
+        // this.countdown = new CountdownController(this, timerLabel)
+        // this.countdown.start(this.handleCountdownFinished.bind(this), abc) 
+        //============================================================================================================================
+        
+
         // this.sound.play('travel',{
         //     loop: true
         // })
     }
+
+    // handleCountdownFinished ()
+    // {
+    //     const { width, height } = this.scale
+    //     this.add.text(width * 0.5, height * 0.5, 'You Lose!', { fontSize: '40px', color: '#000' })
+	// 		.setOrigin(0.5)
+
+    // }
 
     private handlePlayerBoatCollision(obj1: Phaser.GameObjects.GameObject, obj2: Phaser.GameObjects.GameObject)
     {
@@ -159,13 +181,14 @@ export default class Game extends Phaser.Scene
             this.ship1.update(this.cursers)
         }
 
+        
         // Variables for calculating emitter's direction
         const directn = new Phaser.Math.Vector2(0, 0)
         directn.setToPolar(this.ship1.rotation, 1)
-
+        
         let dx = directn.x 
         let dy = directn.y 
-                
+        
         // Setting direction and intensity of Particle system at the end of the boat
         if (this.exhaustEmitter)
         {
@@ -174,17 +197,20 @@ export default class Game extends Phaser.Scene
             
             const ddx = -dx
             const ddy = -dy
-
+            
             // exhaustEmitter
             this.exhaustEmitter.setSpeedX({ min: 40 * ddx, max: 140 * ddx})
             this.exhaustEmitter.setSpeedY({ min:  40 * ddy, max: 140 * ddy})
-
+            
             this.exhaustEmitter.accelerationX.propertyValue = 100 * ddx
             this.exhaustEmitter.accelerationY.propertyValue = 100 * ddy
-
+            
             this.exhaustEmitter.followOffset.x = offstx
             this.exhaustEmitter.followOffset.y = offsty          
         }
+        
+        // this.countdown.update()
+        
 
         // Background sound                 <---- Comemnted for now as it annoys in development :p
         // this.sound.play('ocean')

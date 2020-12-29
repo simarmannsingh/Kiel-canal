@@ -14,7 +14,7 @@ export default class LoadingScene extends Phaser.Scene
     preload()
     {
         // Background image of Splashscreen
-        this.load.image('background', 'assets/background.png')
+        this.load.image('background', 'assets/background_1.png')
         this.load.image('schiff', 'assets/schiff.png')
 
         // Buttons
@@ -42,18 +42,19 @@ export default class LoadingScene extends Phaser.Scene
             })
 
 
-        const settings = new CustomButton(this, this.swidth + 144,this.sheight - 40, 'button1', 'button2', 'Settings')
-        this.add.existing(settings)
+        // const settings = new CustomButton(this, this.swidth + 144,this.sheight + 20, 'button1', 'button2', 'Settings')
+        // this.add.existing(settings)
 
-        const howToPlay = new CustomButton(this, this.swidth + 144,this.sheight + 20, 'button1', 'button2', 'How to play')
+        // this.swidth + 144,this.sheight - 40
+
+        const howToPlay = new CustomButton(this, this.swidth + 144,this.sheight - 40, 'button1', 'button2', 'How to play')
         this.add.existing(howToPlay)
 
-        const soundButton = new CustomButton(this, window.innerWidth - 240,this.sheight - 340, 'button3', 'button4', '')
+        const soundButton = new CustomButton(this, window.innerWidth - 300,this.sheight - 100, 'button3', 'button4', '')
         this.add.existing(soundButton)
 
-        const Speaker = new CustomButton(this, window.innerWidth - 180,this.sheight - 340, 'speaker', 'speaker', '')
+        const Speaker = new CustomButton(this, window.innerWidth - 240,this.sheight - 100, 'speaker', 'speaker', '')
         this.add.existing(Speaker)
-
         
         // soundButton.setInteractive()
         //     .on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {

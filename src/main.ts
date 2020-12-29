@@ -5,11 +5,7 @@ import Preloader from './scenes/Preloader'
 import Game from './scenes/Game'
 import GameUI from './scenes/GameUI'
 import Introduction from './scenes/Introduction'
-// import checkResolution from './Utils/CheckResolution'
-// let res: checkResolution
-// res.checkRes
-
-// let bg_introction;
+// import CountdownController from './scenes/CountdownController'
 
 const config = {
 	type: Phaser.AUTO,
@@ -19,6 +15,7 @@ const config = {
 	// } ,
 	width: 	(window.innerWidth -4)* window.devicePixelRatio,							//  res.screen_width,
 	height: (window.innerHeight -4)* window.devicePixelRatio,							// res.screen_height,
+	backgroundColor: "#4488AA",
 	physics: {
 		default: 'arcade',
 		arcade: {

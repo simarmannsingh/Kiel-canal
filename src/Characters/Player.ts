@@ -49,7 +49,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
             this.healthState = HealthState.DEAD
             this.setTexture('ship4')
             this.setVelocity( 0, 0 )
-            this.scene.sound.play('end')
         }
         else if(this.health > 0 && this.health < 3) // Case : DAMAGE
         {            
@@ -59,7 +58,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
             this.setTint(0xff0000)
             this.damageTime = 0
         }
-        else                                        // Case : IDLE or DAMAGE 
+        else            
         {
             this.setVelocity( dir.x, dir.y )    
             this.setTint(0xff0000)

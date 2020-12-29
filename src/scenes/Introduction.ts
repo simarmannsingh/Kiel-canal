@@ -4,9 +4,9 @@ import CustomButton from '../Utils/CustomButton'
 
 export default class Introduction extends Phaser.Scene
 {
-    bg_introduction: Phaser.GameObjects.TileSprite
+    bg_introduction: Phaser.GameObjects.Image
     private swidth = window.innerWidth/2;
-    private sheight = window.innerHeight/2;
+    private sheight = window.innerHeight;
     
     constructor()
     {
@@ -16,7 +16,7 @@ export default class Introduction extends Phaser.Scene
     preload()
     {
         // Background image of Splashscreen
-        this.load.image('bg_intro', 'assets/middle_scene.jpg')
+        this.load.image('bg_intro', 'assets/level_1_intro.png')
         
 
         // Buttons
@@ -31,10 +31,12 @@ export default class Introduction extends Phaser.Scene
 
     create()
     {
+        
         // this.add.image(640, 450,'bg_intro')
-        this.bg_introduction = this.add.tileSprite(this.swidth, this.sheight, 1440, 4270, 'bg_intro' )
+        // this.bg_introduction = this.add.tileSprite(this.swidth, this.sheight, this.swidth*2, this.sheight*2, 'bg_intro' )
+        this.bg_introduction = this.add.image(this.swidth, this.sheight, 'bg_intro')//, this.swidth*2, this.sheight*2,  )
                 
-        const nextScene = new CustomButton(this, window.innerWidth - 180,this.sheight + 340, 'button1', 'button2', 'Next  >')
+        const nextScene = new CustomButton(this, this.swidth ,this.sheight - 35, 'button1', 'button2', 'Next')
         this.add.existing(nextScene)
         
         nextScene.setInteractive()
@@ -70,6 +72,6 @@ export default class Introduction extends Phaser.Scene
 
     update()
     {
-        this.bg_introduction.tilePositionY += 0.5
+        this.bg_introduction.y -= 0.3
     }
 }
