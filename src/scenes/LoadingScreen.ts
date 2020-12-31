@@ -15,7 +15,7 @@ export default class LoadingScene extends Phaser.Scene
     {
         // Background image of Splashscreen
         this.load.image('background', 'assets/background_1.png')
-        this.load.image('schiff', 'assets/schiff.png')
+        this.load.image('schiff', 'assets/schiff_1.png')
 
         // Buttons
         this.load.image('button1', 'assets/blue_button00.png')

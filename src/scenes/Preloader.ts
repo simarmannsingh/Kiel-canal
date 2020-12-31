@@ -11,8 +11,7 @@ export default class Preloader extends Phaser.Scene {
     {
         // Background Map
         this.load.image('tiles', 'assets/oldkiel.png')
-        // this.load.tilemapTiledJSON('pirates', 'assets/pirates1.json')
-        this.load.tilemapTiledJSON('pirates', 'assets/pirates_level1.json')
+        this.load.tilemapTiledJSON('pirates', 'assets/pirates_nieveu1.json')
 
         // Health UI assets
         this.load.image('ui_heart_full', 'assets/ui_heart_full.png')
@@ -26,6 +25,13 @@ export default class Preloader extends Phaser.Scene {
         
         // passenger Boat
         this.load.image('boat', 'assets/boat.png')
+
+        // Flags
+        this.load.image('Germanflags', 'assets/germanyflag.png')
+        this.load.image('denmarkflag', 'assets/denmarkflag.png')
+
+        // Finish tile
+        this.load.image('finishtile', 'assets/finishtile.png')
         
         // Ship's ripples
         this.load.image('ripples', 'assets/shipripples.png')

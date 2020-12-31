@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
 import Boat from '../Boats/Boat'
+import DeFlag from '../Flags/DeFlag'
 import '../Characters/Player'
 import Player from '../Characters/Player';
 
@@ -20,6 +21,7 @@ export default class Game extends Phaser.Scene
     
     // private countdown: CountdownController
     private playerBoatCollider?: Phaser.Physics.Arcade.Collider
+    private playerFinishCollider?: Phaser.Physics.Arcade.Collider
 
     exhaustEmitter : Phaser.GameObjects.Particles.ParticleEmitter;
     // fire : Phaser.GameObjects.Particles.ParticleEmitter;
@@ -40,12 +42,21 @@ export default class Game extends Phaser.Scene
         map.createLayer('Water', tileset)                           // Layer 1
         const groundLayer = map.createLayer('Ground', tileset)      // Layer 2
         const treesLayer = map.createLayer('Trees', tileset)        // Layer 3
-        const stonesLayer = map.createLayer('Stones', tileset)      // Layer 4
+        // const moretreesLayer = map.createLayer('Moretrees', tileset)        // Layer 4
+        const stonesLayer = map.createLayer('Stones', tileset)      // Layer 5
+        // const roadsLayer = map.createLayer('Road', tileset2)      // Layer 6
+        // const finishlineLayer = map.createLayer('FinishLine', tileset)      // Layer 7
+        // const flagsLayer = map.createLayer('Deflags', tileset)      // Layer 8
+        // flagsLayer.forEachTile( (obj) => {
+        //     this.physics.add.sprite(obj.x, obj.y, 'germanyflag', 'germanyflag.png' )    
+        // })
 
         // Making different layers collidable by player
         groundLayer.setCollisionByProperty({collide : true})
         treesLayer.setCollisionByProperty({collide : true})
+        // moretreesLayer.setCollisionByProperty({collide : true})
         stonesLayer.setCollisionByProperty({collide : true})
+        // finishlineLayer.setCollisionByProperty({collide: true})
 
         // =====================================================================
         // Highlighting which area is marked for collisions
@@ -55,10 +66,11 @@ export default class Game extends Phaser.Scene
 
         // Adding Particle emitter
         const particles = this.add.particles('ripples')
-        const boatparticles = this.add.particles('ripples')
+        // const boatparticles = this.add.particles('ripples')
         
         // Adding ship
         this.ship1 = this.add.player(3180, -12250, 'ship1')        
+        // this.ship1 = this.add.player(-4880, -8450, 'ship1')        
         
         // Adding boats
         this.boat = this.physics.add.sprite(3380, -11650, 'boat', 'boat.png' )        
@@ -73,14 +85,56 @@ export default class Game extends Phaser.Scene
 
         const boatsLayer = map.getObjectLayer('Dingyboats')
         boatsLayer.objects.forEach((boatObj) => {
-            boats .get(boatObj.x! + boatObj.width! * 0.5, boatObj.y! - boatObj.height! * 0.5, 'boat')
+            boats.get(boatObj.x! + boatObj.width! * 0.5, boatObj.y! - boatObj.height! * 0.5, 'boat')
              
         })
+
+
+
+        const germanyflags = this.physics.add.group({
+            classType: DeFlag
+            // createCallback: (go) => {
+            //     const boatgo = go as DeFlag
+            //     boatgo.body.onCollide = true
+            // },
+        })
+
+        const germanyflagsLayer = map.getObjectLayer('Germanflags')
+        germanyflagsLayer.objects.forEach((deFlagsObj) => {
+            germanyflags.get(deFlagsObj.x! + deFlagsObj.width! * 0.5, deFlagsObj.y! - deFlagsObj.height! * 0.5, 'Germanflags')
+             
+        })
+
+        // const finishlineLayer = map.getObjectLayer('Finishline')
+
+        // finishlineLayer.objects.forEach((flObj) => {
+        //     const { x =  0, y = 0, name, width = 0, height= 0} = flObj
+
+        //     switch(name)
+        //     {
+        //         case 'f_line':
+        //         {
+        //             const fline = this.matter.add.sprite(x , y , 'f_line', undefined, {
+        //                 isSensor: true,
+        //                 isStatic: true
+        //             })
+        //             fline.setData('type', 'f_line')
+        //             break                       
+
+        //         }
+        //     }
+        //     this.matter.add.sprite(x, y, '', undefined, {
+        //         isStatic: true
+        //     })
+        // })
+
+        // this.matter.world.convertTilemapLayer(groundLayer)
 
         this.physics.add.collider(boats, groundLayer)
         this.physics.add.collider(boats, stonesLayer)
         this.physics.add.collider(boats, treesLayer)
         this.playerBoatCollider = this.physics.add.collider(boats, this.ship1 , this.handlePlayerBoatCollision , undefined, this)
+        // this.playerFinishCollider = this.physics.add.collider(this.ship1 , finishlineLayer , this.handlePlayerFinishCollision , undefined, this)
 
         
         //============================================================================================
@@ -140,9 +194,9 @@ export default class Game extends Phaser.Scene
         //============================================================================================================================
         
 
-        // this.sound.play('travel',{
-        //     loop: true
-        // })
+        this.sound.play('travel',{
+            loop: true
+        })
     }
 
     // handleCountdownFinished ()
@@ -152,6 +206,12 @@ export default class Game extends Phaser.Scene
 	// 		.setOrigin(0.5)
 
     // }
+
+    private handlePlayerFinishCollision(obj1: Phaser.GameObjects.GameObject, obj2: Phaser.GameObjects.GameObject)
+    {
+        console.dir(obj1)
+
+    }
 
     private handlePlayerBoatCollision(obj1: Phaser.GameObjects.GameObject, obj2: Phaser.GameObjects.GameObject)
     {

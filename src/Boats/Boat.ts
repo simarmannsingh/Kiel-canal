@@ -142,10 +142,6 @@ export default class Boat extends Phaser.Physics.Arcade.Sprite
 
         }
     }
-
-
-
-
 }
 
 
