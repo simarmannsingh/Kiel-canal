@@ -93,7 +93,7 @@ export default class Boat extends Phaser.Physics.Arcade.Sprite
     {
         super.preUpdate(t, dt)
 
-        const speed = 50
+        const speed = 200
 
         switch(this.direction)
         {

@@ -42,13 +42,14 @@ export default class LoadingScene extends Phaser.Scene
             })
 
 
-        // const settings = new CustomButton(this, this.swidth + 144,this.sheight + 20, 'button1', 'button2', 'Settings')
-        // this.add.existing(settings)
-
-        // this.swidth + 144,this.sheight - 40
 
         const howToPlay = new CustomButton(this, this.swidth + 144,this.sheight - 40, 'button1', 'button2', 'How to play')
         this.add.existing(howToPlay)
+
+        howToPlay.setInteractive()
+            .on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
+                this.scene.start('info-screen')
+            })
 
         const soundButton = new CustomButton(this, window.innerWidth - 300,this.sheight - 100, 'button3', 'button4', '')
         this.add.existing(soundButton)

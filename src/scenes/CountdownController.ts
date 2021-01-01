@@ -1,10 +1,10 @@
 export default class CountdownController
 {
-    private scene: Phaser.Scene
-    private label: Phaser.GameObjects.Text
-    private timerEvent: Phaser.Time.TimerEvent
-    private duration = 0
-    private finishedCallback: () => {}
+    scene: Phaser.Scene
+    label: Phaser.GameObjects.Text
+    timerEvent: Phaser.Time.TimerEvent
+    duration = 0
+    finishedCallback: () => {}
 
     constructor(scene:Phaser.Scene, label:Phaser.GameObjects.Text)
     {
@@ -55,6 +55,9 @@ export default class CountdownController
         const remaining = this.duration - elapsed
 
         const seconds = remaining / 1000
+
+        // console.log(seconds);
+        
 
         this.label.text = seconds.toFixed(2)
         

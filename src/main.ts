@@ -5,7 +5,8 @@ import Preloader from './scenes/Preloader'
 import Game from './scenes/Game'
 import GameUI from './scenes/GameUI'
 import Introduction from './scenes/Introduction'
-// import CountdownController from './scenes/CountdownController'
+import InformationScreen from './scenes/InformationScreen'
+import CountdownController from './scenes/CountdownController'
 
 const config = {
 	type: Phaser.AUTO,
@@ -23,7 +24,7 @@ const config = {
 			// debug: true			//	<--- uncomment this for debug mode, shows bounding border of the player
 		}
 	},
-	scene: [LoadingScene, Introduction, Preloader, Game, GameUI],
+	scene: [LoadingScene, Introduction, InformationScreen, Preloader, Game, GameUI, CountdownController],
 	// scale : {
 	// 	zoom : 2
 	// }

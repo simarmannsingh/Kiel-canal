@@ -108,7 +108,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
             return
         }
 
-        let speed = 250             // <-------  Speed of the player's ship when accelerating
+        let speed = 350             // <-------  Speed of the player's ship when accelerating
         let floating_speed = 80     // <-------  floating velocity
 
         const directn = new Phaser.Math.Vector2(0, 0)

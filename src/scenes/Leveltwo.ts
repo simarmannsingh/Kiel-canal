@@ -1,6 +1,5 @@
 import Phaser from 'phaser'
 import Boat from '../Boats/Boat'
-import DeFlag from '../Flags/DeFlag'
 import '../Characters/Player'
 import Player from '../Characters/Player';
 import CustomButton from '../Utils/CustomButton'
@@ -8,11 +7,11 @@ import CustomButton from '../Utils/CustomButton'
 import { sceneEvents } from '../Events/EventsCenter'
 import CountdownController from './CountdownController';
 
-export default class Game extends Phaser.Scene
+export default class Leveltwo extends Phaser.Scene
 {   
     constructor()
 	{
-		super('game')
+		super('leveltwo')
 	}    
     
     private swidth = window.innerWidth/2
@@ -38,7 +37,7 @@ export default class Game extends Phaser.Scene
         this.scene.run('game_ui')
 
         // Adding tileset and different Map layers
-        const map = this.make.tilemap( {key: 'pirates'} )
+        const map = this.make.tilemap( {key: 'leveltwo'} )
         const tileset = map.addTilesetImage('oldkiel', 'tiles')
 
         map.createLayer('Water', tileset)                           // Layer 1
@@ -47,7 +46,7 @@ export default class Game extends Phaser.Scene
         // const moretreesLayer = map.createLayer('Moretrees', tileset)        // Layer 4
         const stonesLayer = map.createLayer('Stones', tileset)      // Layer 5
         // const roadsLayer = map.createLayer('Road', tileset2)      // Layer 6
-        const finishlineLayer = map.createLayer('Finishline', tileset)      // Layer 7
+        // const finishlineLayer = map.createLayer('Finishline', tileset)      // Layer 7
         // const flagsLayer = map.createLayer('Deflags', tileset)      // Layer 8
         // flagsLayer.forEachTile( (obj) => {
         //     this.physics.add.sprite(obj.x, obj.y, 'germanyflag', 'germanyflag.png' )    
@@ -58,7 +57,7 @@ export default class Game extends Phaser.Scene
         treesLayer.setCollisionByProperty({collide : true})
         // moretreesLayer.setCollisionByProperty({collide : true})
         stonesLayer.setCollisionByProperty({collide : true})
-        finishlineLayer.setCollisionByProperty({collide: true})
+        // finishlineLayer.setCollisionByProperty({collide: true})
 
         // =====================================================================
         // Highlighting which area is marked for collisions
@@ -72,7 +71,7 @@ export default class Game extends Phaser.Scene
         
         // Adding ship
         // this.ship1 = this.add.player(3180, -12250, 'ship1')        
-        this.ship1 = this.add.player(-4880, -8450, 'ship1')        
+        this.ship1 = this.add.player(3600, -9096, 'ship1')        
         
         // Adding boats
         this.boat = this.physics.add.sprite(3380, -11650, 'boat', 'boat.png' )        
@@ -91,21 +90,6 @@ export default class Game extends Phaser.Scene
              
         })
 
-
-
-        const germanyflags = this.physics.add.group({
-            classType: DeFlag
-            // createCallback: (go) => {
-            //     const boatgo = go as DeFlag
-            //     boatgo.body.onCollide = true
-            // },
-        })
-
-        const germanyflagsLayer = map.getObjectLayer('Germanflags')
-        germanyflagsLayer.objects.forEach((deFlagsObj) => {
-            germanyflags.get(deFlagsObj.x! + deFlagsObj.width! * 0.5, deFlagsObj.y! - deFlagsObj.height! * 0.5, 'Germanflags')
-             
-        })
 
         // const finishlineLayer = map.getObjectLayer('Finishline')
 
@@ -136,15 +120,8 @@ export default class Game extends Phaser.Scene
         this.physics.add.collider(boats, stonesLayer)
         this.physics.add.collider(boats, treesLayer)
         this.playerBoatCollider = this.physics.add.collider(boats, this.ship1 , this.handlePlayerBoatCollision , undefined, this)
-        this.playerFinishCollider = this.physics.add.collider(this.ship1 , finishlineLayer , this.handlePlayerFinishCollision , undefined, this)
+        // this.playerFinishCollider = this.physics.add.collider(this.ship1 , finishlineLayer , this.handlePlayerFinishCollision , undefined, this)
 
-        const nextLevel = new CustomButton(this, this.swidth, this.sheight, 'button1', 'button2', 'Next Lev')
-        this.add.existing(nextLevel)
-        
-        nextLevel.setInteractive()
-            .on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
-                this.scene.start('leveltwo')
-            })
         
         //============================================================================================
         //  Particle system for Player's Ship and other boats
@@ -193,7 +170,7 @@ export default class Game extends Phaser.Scene
         //     Error : TODO
         //============================================================================================================================
 
-        let timerLabel = this.add.text(this.swidth, this.sheight, '45', { fontSize: '40px', color: '#543A21' })
+        let timerLabel = this.add.text(300, -300, '45', { fontSize: '40px', color: '#ffffff' })
             .setOrigin(0.5)
         
         console.log(timerLabel.text);
@@ -201,7 +178,7 @@ export default class Game extends Phaser.Scene
         const abc = Number(timerLabel.text)
 
         this.countdown = new CountdownController(this, timerLabel)
-        this.countdown.start(this.handleCountdownFinished.bind(this)) 
+        this.countdown.start(this.handleCountdownFinished.bind(this), abc) 
         //============================================================================================================================
         
 
@@ -222,7 +199,15 @@ export default class Game extends Phaser.Scene
 
     private handlePlayerFinishCollision(obj1: Phaser.GameObjects.GameObject, obj2: Phaser.GameObjects.GameObject)
     {
-        this.sound.play('end')        
+        this.sound.play('end')
+
+        const nextLevel = new CustomButton(this, this.swidth, this.sheight, 'button1', 'button2', 'Next Lev')
+        this.add.existing(nextLevel)
+        
+        nextLevel.setInteractive()
+            .on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
+                this.scene.start('intro-screen')
+            })
 
     }
 
