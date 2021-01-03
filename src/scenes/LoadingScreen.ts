@@ -38,7 +38,8 @@ export default class LoadingScene extends Phaser.Scene
         
         startGame.setInteractive()
             .on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
-                this.scene.start('intro-screen')
+                this.scene.stop('load-screen')
+                this.scene.start('intro-screen-level1')
             })
 
 
@@ -48,6 +49,7 @@ export default class LoadingScene extends Phaser.Scene
 
         howToPlay.setInteractive()
             .on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
+                this.scene.stop('load-screen')
                 this.scene.start('info-screen')
             })
 
@@ -56,21 +58,6 @@ export default class LoadingScene extends Phaser.Scene
 
         const Speaker = new CustomButton(this, window.innerWidth - 240,this.sheight - 100, 'speaker', 'speaker', '')
         this.add.existing(Speaker)
-        
-        // soundButton.setInteractive()
-        //     .on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
-                              
-
-        //     })
-        // this.add.image(400, 300, 'button1').setInteractive()
-        //     .on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
-        //         console.log('pressed');
-        //     })
-        
-    }
-
-    update()
-    {
 
     }
 }

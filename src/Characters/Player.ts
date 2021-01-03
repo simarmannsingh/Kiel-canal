@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import CustomButton from '../Utils/CustomButton'
 
 declare global
 {
@@ -48,7 +49,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
         {            
             this.healthState = HealthState.DEAD
             this.setTexture('ship4')
-            this.setVelocity( 0, 0 )
+            this.setVelocity( 0, 0 )            
         }
         else if(this.health > 0 && this.health < 3) // Case : DAMAGE
         {            

@@ -11,7 +11,7 @@ export default class Leveltwo extends Phaser.Scene
 {   
     constructor()
 	{
-		super('leveltwo')
+		super('leveltwo')                
 	}    
     
     private swidth = window.innerWidth/2
@@ -30,14 +30,13 @@ export default class Leveltwo extends Phaser.Scene
 	preload()
     {
        this.cursers = this.input.keyboard.createCursorKeys()
+       
     }
 
     create()
     {   
-        this.scene.run('game_ui')
-
         // Adding tileset and different Map layers
-        const map = this.make.tilemap( {key: 'leveltwo'} )
+        const map = this.make.tilemap( {key: 'secondlevel'} )
         const tileset = map.addTilesetImage('oldkiel', 'tiles')
 
         map.createLayer('Water', tileset)                           // Layer 1
@@ -46,7 +45,7 @@ export default class Leveltwo extends Phaser.Scene
         // const moretreesLayer = map.createLayer('Moretrees', tileset)        // Layer 4
         const stonesLayer = map.createLayer('Stones', tileset)      // Layer 5
         // const roadsLayer = map.createLayer('Road', tileset2)      // Layer 6
-        // const finishlineLayer = map.createLayer('Finishline', tileset)      // Layer 7
+        const finishlineLayer = map.createLayer('FinishLine', tileset)      // Layer 7
         // const flagsLayer = map.createLayer('Deflags', tileset)      // Layer 8
         // flagsLayer.forEachTile( (obj) => {
         //     this.physics.add.sprite(obj.x, obj.y, 'germanyflag', 'germanyflag.png' )    
@@ -57,7 +56,7 @@ export default class Leveltwo extends Phaser.Scene
         treesLayer.setCollisionByProperty({collide : true})
         // moretreesLayer.setCollisionByProperty({collide : true})
         stonesLayer.setCollisionByProperty({collide : true})
-        // finishlineLayer.setCollisionByProperty({collide: true})
+        finishlineLayer.setCollisionByProperty({collide: true})
 
         // =====================================================================
         // Highlighting which area is marked for collisions
@@ -67,11 +66,10 @@ export default class Leveltwo extends Phaser.Scene
 
         // Adding Particle emitter
         const particles = this.add.particles('ripples')
-        // const boatparticles = this.add.particles('ripples')
-        
+
         // Adding ship
-        // this.ship1 = this.add.player(3180, -12250, 'ship1')        
-        this.ship1 = this.add.player(3600, -9096, 'ship1')        
+        this.ship1 = this.add.player(3180, -12250, 'ship1')        
+        // this.ship1 = this.add.player(3600, -9096, 'ship1')        
         
         // Adding boats
         this.boat = this.physics.add.sprite(3380, -11650, 'boat', 'boat.png' )        
@@ -90,37 +88,11 @@ export default class Leveltwo extends Phaser.Scene
              
         })
 
-
-        // const finishlineLayer = map.getObjectLayer('Finishline')
-
-        // finishlineLayer.objects.forEach((flObj) => {
-        //     const { x =  0, y = 0, name, width = 0, height= 0} = flObj
-
-        //     switch(name)
-        //     {
-        //         case 'f_line':
-        //         {
-        //             const fline = this.matter.add.sprite(x , y , 'f_line', undefined, {
-        //                 isSensor: true,
-        //                 isStatic: true
-        //             })
-        //             fline.setData('type', 'f_line')
-        //             break                       
-
-        //         }
-        //     }
-        //     this.matter.add.sprite(x, y, '', undefined, {
-        //         isStatic: true
-        //     })
-        // })
-
-        // this.matter.world.convertTilemapLayer(groundLayer)
-
         this.physics.add.collider(boats, groundLayer)
         this.physics.add.collider(boats, stonesLayer)
         this.physics.add.collider(boats, treesLayer)
         this.playerBoatCollider = this.physics.add.collider(boats, this.ship1 , this.handlePlayerBoatCollision , undefined, this)
-        // this.playerFinishCollider = this.physics.add.collider(this.ship1 , finishlineLayer , this.handlePlayerFinishCollision , undefined, this)
+        this.playerFinishCollider = this.physics.add.collider(this.ship1 , finishlineLayer , this.handlePlayerFinishCollision , undefined, this)
 
         
         //============================================================================================
@@ -161,13 +133,23 @@ export default class Leveltwo extends Phaser.Scene
         this.physics.add.collider(this.ship1, treesLayer)
 
         // Camera Follow the player
-        this.cameras.main.setZoom(0.1)
+        this.cameras.main.setZoom(0.01)
         this.cameras.main.startFollow(this.ship1, true)
-        this.cameras.main.zoomTo(1, 1200)
+        this.cameras.main.zoomTo(1, 2500)
+
+
+        const openMap = new CustomButton(this, this.swidth + 100 ,this.sheight - 35, 'button1', 'button2', 'Next')
+        this.add.existing(openMap)
+        
+        openMap.setInteractive()
+            .on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
+                this.scene.stop('leveltwo')
+                this.scene.start('level1-map')
+            })
 
 
         //============================================================================================================================
-        //     Error : TODO
+        //     TODO : Countdown Timer
         //============================================================================================================================
 
         let timerLabel = this.add.text(300, -300, '45', { fontSize: '40px', color: '#ffffff' })
@@ -181,11 +163,12 @@ export default class Leveltwo extends Phaser.Scene
         this.countdown.start(this.handleCountdownFinished.bind(this), abc) 
         //============================================================================================================================
         
+        this.scene.run('game_ui')
 
-        // this.add.text(0, 0, 'Hello World', { font: '"Press Start 2P"' });
-        // this.sound.play('travel',{
-        //     loop: true
-        // })
+        this.sound.play('travel',{
+            loop: true
+        })
+
     }
     
 
@@ -199,16 +182,14 @@ export default class Leveltwo extends Phaser.Scene
 
     private handlePlayerFinishCollision(obj1: Phaser.GameObjects.GameObject, obj2: Phaser.GameObjects.GameObject)
     {
+        this.sound.stopAll()
         this.sound.play('end')
-
-        const nextLevel = new CustomButton(this, this.swidth, this.sheight, 'button1', 'button2', 'Next Lev')
-        this.add.existing(nextLevel)
-        
-        nextLevel.setInteractive()
-            .on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
-                this.scene.start('intro-screen')
-            })
-
+        this.time.delayedCall(2000, () => {
+            this.scene.stop('leveltwo')
+            this.scene.stop('game_ui')
+            this.sound.stopAll()
+            this.scene.start('congrats')
+        })       
     }
 
     private handlePlayerBoatCollision(obj1: Phaser.GameObjects.GameObject, obj2: Phaser.GameObjects.GameObject)
@@ -226,8 +207,14 @@ export default class Leveltwo extends Phaser.Scene
 
         if(this.ship1.getHealth <= 0 )
         {            
+            this.sound.stopAll()
             this.exhaustEmitter.follow = null
             this.playerBoatCollider?.destroy()
+            this.sound.play('reset')
+            this.time.delayedCall(5000, () => {
+                this.scene.stop('leveltwo')
+                this.scene.start('leveltwo')                
+            })
         }
         this.sound.play('smash')
     }
@@ -239,7 +226,13 @@ export default class Leveltwo extends Phaser.Scene
             this.ship1.update(this.cursers)
         }
 
-        
+        if (this.cursers.shift?.isDown)
+        {
+            this.scene.stop('game_ui')
+            this.scene.stop('leveltwo')
+            this.scene.start('level2-map')
+        }
+
         // Variables for calculating emitter's direction
         const directn = new Phaser.Math.Vector2(0, 0)
         directn.setToPolar(this.ship1.rotation, 1)

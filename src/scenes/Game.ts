@@ -91,8 +91,6 @@ export default class Game extends Phaser.Scene
              
         })
 
-
-
         const germanyflags = this.physics.add.group({
             classType: DeFlag
             // createCallback: (go) => {
@@ -106,31 +104,6 @@ export default class Game extends Phaser.Scene
             germanyflags.get(deFlagsObj.x! + deFlagsObj.width! * 0.5, deFlagsObj.y! - deFlagsObj.height! * 0.5, 'Germanflags')
              
         })
-
-        // const finishlineLayer = map.getObjectLayer('Finishline')
-
-        // finishlineLayer.objects.forEach((flObj) => {
-        //     const { x =  0, y = 0, name, width = 0, height= 0} = flObj
-
-        //     switch(name)
-        //     {
-        //         case 'f_line':
-        //         {
-        //             const fline = this.matter.add.sprite(x , y , 'f_line', undefined, {
-        //                 isSensor: true,
-        //                 isStatic: true
-        //             })
-        //             fline.setData('type', 'f_line')
-        //             break                       
-
-        //         }
-        //     }
-        //     this.matter.add.sprite(x, y, '', undefined, {
-        //         isStatic: true
-        //     })
-        // })
-
-        // this.matter.world.convertTilemapLayer(groundLayer)
 
         this.physics.add.collider(boats, groundLayer)
         this.physics.add.collider(boats, stonesLayer)
@@ -184,16 +157,16 @@ export default class Game extends Phaser.Scene
         this.physics.add.collider(this.ship1, treesLayer)
 
         // Camera Follow the player
-        this.cameras.main.setZoom(0.1)
+        this.cameras.main.setZoom(0.01)
         this.cameras.main.startFollow(this.ship1, true)
-        this.cameras.main.zoomTo(1, 1200)
+        this.cameras.main.zoomTo(1, 2200)
 
 
         //============================================================================================================================
         //     Error : TODO
         //============================================================================================================================
 
-        let timerLabel = this.add.text(this.swidth, this.sheight, '45', { fontSize: '40px', color: '#543A21' })
+        let timerLabel = this.add.text(this.swidth, this.sheight, '45', { fontSize: '40', color: '#543A21' })
             .setOrigin(0.5)
         
         console.log(timerLabel.text);
@@ -206,9 +179,9 @@ export default class Game extends Phaser.Scene
         
 
         // this.add.text(0, 0, 'Hello World', { font: '"Press Start 2P"' });
-        // this.sound.play('travel',{
-        //     loop: true
-        // })
+        this.sound.play('travel',{
+            loop: true
+        })
     }
     
 
@@ -222,8 +195,13 @@ export default class Game extends Phaser.Scene
 
     private handlePlayerFinishCollision(obj1: Phaser.GameObjects.GameObject, obj2: Phaser.GameObjects.GameObject)
     {
-        this.sound.play('end')        
-
+        this.sound.play('end')
+        this.time.delayedCall(2000, () => {
+            this.scene.stop('game_ui')
+            this.scene.stop('game')
+            this.sound.stopAll()
+            this.scene.start('intro-screen-level2')
+        })
     }
 
     private handlePlayerBoatCollision(obj1: Phaser.GameObjects.GameObject, obj2: Phaser.GameObjects.GameObject)
@@ -235,15 +213,22 @@ export default class Game extends Phaser.Scene
 
         const dir = new Phaser.Math.Vector2(dx, dy).normalize().scale(200)
         
-        this.ship1.handleDamage(dir)
-
-        sceneEvents.emit('player_health_changed', this.ship1.getHealth)
+        this.ship1.handleDamage(dir)        
 
         if(this.ship1.getHealth <= 0 )
-        {            
+        {       
+            this.sound.stopAll()
             this.exhaustEmitter.follow = null
             this.playerBoatCollider?.destroy()
+            this.sound.play('reset')
+            this.time.delayedCall(5000, () => {
+                this.scene.stop('game')
+                this.sound.stopAll()
+                this.scene.start('game')
+            })
         }
+
+        sceneEvents.emit('player_health_changed', this.ship1.getHealth)
         this.sound.play('smash')
     }
 
@@ -254,7 +239,13 @@ export default class Game extends Phaser.Scene
             this.ship1.update(this.cursers)
         }
 
-        
+        if (this.cursers.shift?.isDown)
+        {
+            this.scene.stop('game_ui')
+            this.scene.stop('game')
+            this.scene.start('level1-map')
+        }
+
         // Variables for calculating emitter's direction
         const directn = new Phaser.Math.Vector2(0, 0)
         directn.setToPolar(this.ship1.rotation, 1)
