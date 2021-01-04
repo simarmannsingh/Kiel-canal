@@ -26,7 +26,16 @@ export default class Leveltwo extends Phaser.Scene
 
     exhaustEmitter : Phaser.GameObjects.Particles.ParticleEmitter;
     // fire : Phaser.GameObjects.Particles.ParticleEmitter;
+    
+    soundConfig = {
+        volume: 0.25,
+        loop: true,
+    }
 
+    volume = {
+        volume: 0.24
+    }
+    
 	preload()
     {
        this.cursers = this.input.keyboard.createCursorKeys()
@@ -165,9 +174,7 @@ export default class Leveltwo extends Phaser.Scene
         
         this.scene.run('game_ui')
 
-        this.sound.play('travel',{
-            loop: true
-        })
+        this.sound.play('travel',this.soundConfig)
 
     }
     
@@ -183,7 +190,7 @@ export default class Leveltwo extends Phaser.Scene
     private handlePlayerFinishCollision(obj1: Phaser.GameObjects.GameObject, obj2: Phaser.GameObjects.GameObject)
     {
         this.sound.stopAll()
-        this.sound.play('end')
+        this.sound.play('end', this.volume)
         this.time.delayedCall(2000, () => {
             this.scene.stop('leveltwo')
             this.scene.stop('game_ui')
@@ -210,13 +217,13 @@ export default class Leveltwo extends Phaser.Scene
             this.sound.stopAll()
             this.exhaustEmitter.follow = null
             this.playerBoatCollider?.destroy()
-            this.sound.play('reset')
+            this.sound.play('reset', this.volume)
             this.time.delayedCall(5000, () => {
                 this.scene.stop('leveltwo')
                 this.scene.start('leveltwo')                
             })
         }
-        this.sound.play('smash')
+        this.sound.play('smash', this.volume)
     }
 
     update(t: number, dt: number)

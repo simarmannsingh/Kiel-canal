@@ -27,6 +27,14 @@ export default class Game extends Phaser.Scene
 
     exhaustEmitter : Phaser.GameObjects.Particles.ParticleEmitter;
     // fire : Phaser.GameObjects.Particles.ParticleEmitter;
+    soundConfig = {
+        volume: 0.25,
+        loop: true,
+    }
+
+    volume = {
+        volume: 0.24
+    }
 
 	preload()
     {
@@ -71,8 +79,8 @@ export default class Game extends Phaser.Scene
         // const boatparticles = this.add.particles('ripples')
         
         // Adding ship
-        // this.ship1 = this.add.player(3180, -12250, 'ship1')        
-        this.ship1 = this.add.player(-4880, -8450, 'ship1')        
+        this.ship1 = this.add.player(3180, -12250, 'ship1')        
+        // this.ship1 = this.add.player(-4880, -8450, 'ship1')
         
         // Adding boats
         this.boat = this.physics.add.sprite(3380, -11650, 'boat', 'boat.png' )        
@@ -179,9 +187,7 @@ export default class Game extends Phaser.Scene
         
 
         // this.add.text(0, 0, 'Hello World', { font: '"Press Start 2P"' });
-        this.sound.play('travel',{
-            loop: true
-        })
+        this.sound.play('travel',this.soundConfig)
     }
     
 
@@ -195,7 +201,7 @@ export default class Game extends Phaser.Scene
 
     private handlePlayerFinishCollision(obj1: Phaser.GameObjects.GameObject, obj2: Phaser.GameObjects.GameObject)
     {
-        this.sound.play('end')
+        this.sound.play('end', this.volume)
         this.time.delayedCall(2000, () => {
             this.scene.stop('game_ui')
             this.scene.stop('game')
@@ -220,7 +226,7 @@ export default class Game extends Phaser.Scene
             this.sound.stopAll()
             this.exhaustEmitter.follow = null
             this.playerBoatCollider?.destroy()
-            this.sound.play('reset')
+            this.sound.play('reset', this.volume)
             this.time.delayedCall(5000, () => {
                 this.scene.stop('game')
                 this.sound.stopAll()

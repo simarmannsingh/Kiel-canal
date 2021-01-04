@@ -42,6 +42,7 @@ export default class Preloader extends Phaser.Scene {
         this.load.audio('end', 'music/end.mp3')
         this.load.audio('travel', 'music/travel.mp3')
         this.load.audio('reset', 'music/shipreset.mp3')
+        this.load.audio('congrats', 'music/congrats.mp3')
 
     }
 

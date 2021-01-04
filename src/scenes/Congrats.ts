@@ -8,6 +8,11 @@ export default class Congrats extends Phaser.Scene
     private swidth = window.innerWidth/2;
     private sheight = window.innerHeight;
     
+    soundConfig = {
+        volume: 0.25,
+        loop: true,
+    }
+   
     constructor()
     {
         super('congrats')
@@ -22,6 +27,7 @@ export default class Congrats extends Phaser.Scene
     create()
     {   
         this.bg_congrats = this.add.image(this.swidth, this.sheight , 'bg_congrats')
+        this.sound.play('congrats', this.soundConfig)
                 
         const nextScene = new CustomButton(this, this.swidth + 100 ,this.sheight - 35, 'button1', 'button2', 'Next')
         this.add.existing(nextScene)
@@ -29,6 +35,7 @@ export default class Congrats extends Phaser.Scene
         nextScene.setInteractive()
             .on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
                 this.scene.stop('congrats')
+                this.sound.stopAll()
                 this.scene.start('load-screen')
             })
 
@@ -38,6 +45,7 @@ export default class Congrats extends Phaser.Scene
         back.setInteractive()
             .on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
                 this.scene.stop('congrats')
+                this.sound.stopAll()
                 this.scene.start('leveltwo')
             })
     }
