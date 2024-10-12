@@ -79,7 +79,7 @@ export default class Game extends Phaser.Scene
         // const boatparticles = this.add.particles('ripples')
         
         // Adding ship
-        this.ship1 = this.add.player(3180, -12250, 'ship1')        
+        this.ship1 = this.add.player(3180, -12250, 'ship1')
         // this.ship1 = this.add.player(-4880, -8450, 'ship1')
         
         // Adding boats
@@ -119,13 +119,20 @@ export default class Game extends Phaser.Scene
         this.playerBoatCollider = this.physics.add.collider(boats, this.ship1 , this.handlePlayerBoatCollision , undefined, this)
         this.playerFinishCollider = this.physics.add.collider(this.ship1 , finishlineLayer , this.handlePlayerFinishCollision , undefined, this)
 
-        const nextLevel = new CustomButton(this, this.swidth, this.sheight, 'button1', 'button2', 'Next Lev')
-        this.add.existing(nextLevel)
+
+        // TRICK : Uncomment this section to add a
+        // button for going to next level, right
+        // next to start line of boat
+        // =======================================
+
+        // const nextLevel = new CustomButton(this, 3180, -12250, 'button1', 'button2', 'Next Lev')
+        // this.add.existing(nextLevel)
         
-        nextLevel.setInteractive()
-            .on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
-                this.scene.start('leveltwo')
-            })
+        // nextLevel.setInteractive()
+        //     .on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
+        //         this.sound.stopAll()
+        //         this.scene.start('leveltwo')
+        //     })
         
         //============================================================================================
         //  Particle system for Player's Ship and other boats
@@ -169,35 +176,16 @@ export default class Game extends Phaser.Scene
         this.cameras.main.startFollow(this.ship1, true)
         this.cameras.main.zoomTo(1, 2200)
 
-
-        //============================================================================================================================
-        //     Error : TODO
-        //============================================================================================================================
-
-        let timerLabel = this.add.text(this.swidth, this.sheight, '45', { fontSize: '40', color: '#543A21' })
-            .setOrigin(0.5)
-        
-        console.log(timerLabel.text);
-        
-        const abc = Number(timerLabel.text)
-
-        this.countdown = new CountdownController(this, timerLabel)
-        this.countdown.start(this.handleCountdownFinished.bind(this)) 
-        //============================================================================================================================
-        
-
-        // this.add.text(0, 0, 'Hello World', { font: '"Press Start 2P"' });
+        // this.add.text(16, 32, 'Hello World', { font: '"Press Shift for Map"' });
         this.sound.play('travel',this.soundConfig)
     }
     
 
-    handleCountdownFinished ()
-    {
-        const { width, height } = this.scale
-        this.add.text(width * 0.5, height * 0.5, 'You Lose!', { fontSize: '40px', color: '#000' })
-			.setOrigin(0.5)
-
-    }
+    // handleCountdownFinished ()
+    // {
+    //     const { width, height } = this.scale
+    //     this.add.text(width * 0.5, height * 0.5, 'You Lose!', { fontSize: '40px', color: '#000' })
+    // }
 
     private handlePlayerFinishCollision(obj1: Phaser.GameObjects.GameObject, obj2: Phaser.GameObjects.GameObject)
     {
@@ -249,6 +237,8 @@ export default class Game extends Phaser.Scene
         {
             this.scene.stop('game_ui')
             this.scene.stop('game')
+            // this.scene.pause('game_ui')
+            // this.scene.pause('game')
             this.scene.start('level1-map')
         }
 
@@ -279,7 +269,7 @@ export default class Game extends Phaser.Scene
             this.exhaustEmitter.followOffset.y = offsty          
         }
         
-        this.countdown.update()
+        // this.countdown.update()
         
 
         // Background sound                 <---- Comemnted for now as it annoys in development :p

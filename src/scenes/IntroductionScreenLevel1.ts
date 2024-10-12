@@ -44,6 +44,6 @@ export default class IntroductionScreenLevel1 extends Phaser.Scene
 
     update()
     {
-        this.bg_introduction.y -= 0.3
+        this.bg_introduction.y -= 0.6
     }
 }

@@ -39,7 +39,7 @@
 		"parcel-bundler": "1.12.5",
 		"parcel-plugin-clean-easy": "^1.0.2",
 		"parcel-plugin-static-files-copy": "^2.4.3",
-		"phaser": "^3.24.1",
+		"phaser": "3.50",
 		"serve": "^11.3.2",
 		"typescript": "^4.1.3"
 	},

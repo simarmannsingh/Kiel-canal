@@ -14,18 +14,19 @@ import Level1_map from './scenes/Level1_map'
 import Level2_map from './scenes/Level2_map'
 
 const config = {
-	type: Phaser.AUTO,
+	type: Phaser.WEBGL,
 	// parent: 'phaser-container',
 	// dom: {
 	// 	createContainer: true
 	// } ,
-	width: 	(window.innerWidth -4)* window.devicePixelRatio,							//  res.screen_width,
-	height: (window.innerHeight -4)* window.devicePixelRatio,							// res.screen_height,
+	width: 	(window.innerWidth - 4),							//  res.screen_width,
+	height: (window.innerHeight - 4),							// res.screen_height,
 	backgroundColor: "#4488AA",
 	physics: {
 		default: 'arcade',
 		arcade: {
 			gravity: { y: 0 },
+			enableSleeping: true
 			// debug: true			//	<--- uncomment this for debug mode, shows bounding border of the player
 		}
 	},
